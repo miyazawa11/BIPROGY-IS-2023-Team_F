@@ -1,0 +1,2 @@
+# BIPROGY IS 2023 Team_F
+ BIPROGY INTERNSHIP 2023の開発用リポジトリ。Fチーム用
