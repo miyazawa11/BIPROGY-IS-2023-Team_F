@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import BaseIconButton from "@/components/BaseIconButton.vue";
+import KidsListView from './views/KidsListView.vue';
 </script>
 
 <template>
@@ -23,6 +24,7 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
     <!--以下にコンテンツを配置-->
     <div class="">
       <router-link to="/"></router-link>
+      <!-- <KidsListView></KidsListView> -->
       <router-view></router-view>
     </div>
   </div>
