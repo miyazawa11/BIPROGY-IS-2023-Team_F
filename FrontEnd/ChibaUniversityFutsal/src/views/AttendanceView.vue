@@ -11,7 +11,7 @@ import BaseWatch from '@/components/BaseWatch.vue';
 <template>
     <div class="row justify-content-center mb-3">
         <div class="col ">
-            <div class="w-35 mx-auto">
+            <div class="w-25 mx-auto">
                 <BaseWatch></BaseWatch>
             </div>
         </div>
