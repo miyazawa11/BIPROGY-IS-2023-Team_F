@@ -2,56 +2,38 @@
 import { useRouter } from 'vue-router'
 import { defineProps, defineEmits } from 'vue';
 
-const emit = defineEmits();
-
-const execEmit = () => {
-  emit('eventTest2', true, false);
-};
-
 
 defineProps({
-    name1: String,
-    name2: String,
-    color1: String,
-    color2: String,
+    name: String,
+    color: String,
     size: String,
-    linkLeft: String,
-    linkRight: String,
+    link: String,
 })
 
 const router = useRouter()
-
 const transition = (link) => {
-    router.push('/'+link)
+    console.log(link)
+    if(link.length!=0){
+        console.log(link)
+        router.push(link)
+    }
 }
 </script>
 
 <template>
     <div>
-        <button @click="transition(linkLeft)" class="ButtonLeft" type="button">
-            {{ name1 }}
-        </button>
-        <button @click="execEmit" class="ButtonRight" type="button">
-            {{ name2 }}
+        <button @click="transition(link)" class="Button" type="button">
+            {{ name }}
         </button>
     </div>
 </template>
 
 <style scoped>
-div{
-    text-align: center;
-}
-.ButtonLeft{
-    background-color: v-bind(color1);
-}
-.ButtonRight{
-    background-color: v-bind(color2);
-}
 button{
+    background-color: v-bind(color);
     border-radius: 20px;
     font-weight: bold;
     font-size: v-bind(size);
-    margin: 0 50px;
     transition: 300ms;
 }
 button:hover{

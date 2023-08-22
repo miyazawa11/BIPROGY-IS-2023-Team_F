@@ -10,11 +10,27 @@ import BaseButton from '@/components/BaseButton.vue';
     </div>
     <div class="row">
       <div class="col">
-        <BaseButton name1="保護者" name2="保育者" color1="#ffddbd" color="#cad6fd" size="20px" linkLeft='attend' linkRight=""></BaseButton>
+        <div class="button">
+          <div class="left-button">
+            <BaseButton name="保護者" color="#ffddbd" size="20px" link='/attend'></BaseButton>
+          </div>
+          <div class="right-button">
+            <BaseButton name="保育者" color="#cad6fd" size="20px" link=''></BaseButton>
+          </div>
+        </div>
       </div> 
     </div>
 </template>
 
 <style scoped>
-
+.button{
+  display: flex;
+  justify-content: center;
+}
+.left-button{
+  margin: 0 25px;
+}
+.right-button{
+  margin: 0 25px;
+}
 </style>

@@ -3,9 +3,6 @@ import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import BaseIconButton from "@/components/BaseIconButton.vue";
-
-
-
 </script>
 
 <template>
