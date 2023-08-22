@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
-
+import BaseIconButton from "@/components/BaseIconButton.vue";
 
 
 
@@ -33,11 +33,14 @@ import { RouterLink, RouterView } from 'vue-router';
     <div class="row" >
       <div class="col">
       </div>
-      <div class="col TopButtonWrapper">
-        <!--トップボタン用-->
+      <div class="col">
+        <div class="IconButtonWrapper position-relative mx-auto">
+          <BaseIconButton name="出欠"></BaseIconButton>
+        </div>
       </div>
+      <div class="col"></div>
     </div>
-    <div class="col"></div>
+    
   </footer>
 
 </template>
@@ -70,5 +73,11 @@ import { RouterLink, RouterView } from 'vue-router';
   background-color: #f7C223;
   height: 7%;
   width: 100%;
+}
+
+.IconButtonWrapper {
+  top: -33%;
+  width: fit-content;
+
 }
 </style>
