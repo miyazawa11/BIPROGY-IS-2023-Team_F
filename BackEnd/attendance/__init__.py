@@ -1,22 +1,29 @@
 from flask import Flask, make_response, jsonify
-from .views.user import user_router
+
+from .views.user import bp          # blueprintインスタンス（routing+処理のスクリプト分割用）
+from attendance.database import db  # dbインスタンス(appとの紐づけ前)
+import config                       # 設定ファイル(文字列の形で読み込むのでVScodeだとnot accessed)
+
 # from flask_cors import CORS
-from attendance.database import db
-import config
 
 def create_app():
+    """
+    appインスタンス作成
+    """
 
-  app = Flask(__name__)
+    # appインスタンス作成
+    app = Flask(__name__)
 
-  # CORS対応
-  # CORS(app)
+    # CORS対応
+    # CORS(app)
 
-  # DB設定を読み込む
-  app.config.from_object('config.Config')
-  db.init_app(app)
+    # DB設定を読み込む
+    app.config.from_object('config.Config')
+    db.init_app(app)
 
-  app.register_blueprint(user_router, url_prefix='/attendance')
+    # routingと処理内容を記述したスクリプトを登録
+    app.register_blueprint(bp, url_prefix='/api')
 
-  return app
+    return app
 
-app = create_app()
+# app = create_app()
