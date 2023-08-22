@@ -69,4 +69,4 @@ with app.app_context():
 with app.app_context():
     child = Children.query.all()[0]
     attendance = Attendance.query.all()[0]
-    print(attendance.checked_by)
+    print(child.first_name)
