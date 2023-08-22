@@ -1,16 +1,26 @@
 <script setup>
+import { useRouter } from 'vue-router'
+
 defineProps({
     name1: String,
     name2: String,
-    color1:String,
-    color2:String,
-    size:String
+    color1: String,
+    color2: String,
+    size: String,
+    linkLeft: String,
+    linkRight: String
 })
+
+const router = useRouter()
+
+const transition = (link) => {
+    router.push('/'+link)
+}
 </script>
 
 <template>
     <div>
-        <button class="ButtonLeft" type="button">
+        <button @click="transition(linkLeft)" class="ButtonLeft" type="button">
             {{ name1 }}
         </button>
         <button class="ButtonRight" type="button">
