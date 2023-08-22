@@ -1,5 +1,13 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { defineProps, defineEmits } from 'vue';
+
+const emit = defineEmits();
+
+const execEmit = () => {
+  emit('eventTest2', true, false);
+};
+
 
 defineProps({
     name1: String,
@@ -8,7 +16,7 @@ defineProps({
     color2: String,
     size: String,
     linkLeft: String,
-    linkRight: String
+    linkRight: String,
 })
 
 const router = useRouter()
@@ -23,7 +31,7 @@ const transition = (link) => {
         <button @click="transition(linkLeft)" class="ButtonLeft" type="button">
             {{ name1 }}
         </button>
-        <button class="ButtonRight" type="button">
+        <button @click="execEmit" class="ButtonRight" type="button">
             {{ name2 }}
         </button>
     </div>
