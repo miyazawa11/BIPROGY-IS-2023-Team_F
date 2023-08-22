@@ -1,10 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-
 import BaseTitle from '@/components/BaseTitle.vue';
 import BaseButton from '@/components/BaseButton.vue';
-
-
 
 </script>
 
@@ -14,7 +10,7 @@ import BaseButton from '@/components/BaseButton.vue';
     </div>
     <div class="row">
       <div class="col">
-        <BaseButton name1="保護者" name2="保育者" color1="#ffddbd" color="#cad6fd" size="20px"></BaseButton>
+        <BaseButton name1="保護者" name2="保育者" color1="#ffddbd" color="#cad6fd" size="20px" linkLeft='attend' linkRight=""></BaseButton>
       </div> 
     </div>
 </template>
