@@ -1,6 +1,8 @@
 from flask import Flask, make_response, jsonify
 
 from .views.user import bp          # blueprintインスタンス（routing+処理のスクリプト分割用）
+from .views.child import child_bp
+from .views.teacher import teacher_bp
 from attendance.database import db  # dbインスタンス(appとの紐づけ前)
 import config                       # 設定ファイル(文字列の形で読み込むのでVScodeだとnot accessed)
 
@@ -23,6 +25,8 @@ def create_app():
 
     # routingと処理内容を記述したスクリプトを登録
     app.register_blueprint(bp, url_prefix='/api')
+    app.register_blueprint(child_bp, url_prefix='/api')
+    app.register_blueprint(teacher_bp, url_prefix='/api')
 
     return app
 
