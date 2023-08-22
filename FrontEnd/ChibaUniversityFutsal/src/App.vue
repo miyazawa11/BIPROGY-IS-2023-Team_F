@@ -3,8 +3,9 @@ import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import BaseIconButton from "@/components/BaseIconButton.vue";
+import BaseCalender from "@/components/BaseCalender.vue";
 
-
+//NOTE:このブランチではApp.vueはコミットしない！！
 
 </script>
 
@@ -23,11 +24,13 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
     </div>
   </header>
   <div class="d-flex align-items-center justify-content-center min-vh-100">
-    <!--以下にコンテンツを配置-->
+    <!--以下にコンテンツを配置
     <div class="">
       <router-link to="/"></router-link>
       <router-view></router-view>
     </div>
+    -->
+    <BaseCalender></BaseCalender>
   </div>
   <footer class="Footer fixed-bottom shadow-lg">
     <div class="row" >
