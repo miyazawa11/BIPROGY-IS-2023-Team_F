@@ -22,11 +22,12 @@ import { RouterLink, RouterView } from 'vue-router';
       </div>
     </div>
   </header>
-  <div class="ContentArea container">
+  <div class="d-flex align-items-center justify-content-center min-vh-100">
     <!--以下にコンテンツを配置-->
-    <router-link to="/"></router-link>
-    <router-view></router-view>
-    
+    <div class="">
+      <router-link to="/"></router-link>
+      <router-view></router-view>
+    </div>
   </div>
   <footer class="Footer fixed-bottom shadow-lg">
     <div class="row" >
