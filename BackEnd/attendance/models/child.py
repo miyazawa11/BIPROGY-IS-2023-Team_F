@@ -1,4 +1,4 @@
-from attendance.database import db
+from attendance.database import db, ma
 from .attendance import Attendance
 
 DAYS_OF_WEEK = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
@@ -34,3 +34,8 @@ class Children(db.Model):
 
     # FK親側(db.relationship(クラス名, backref=""))
     attendance = db.relationship("Attendance")
+
+class ChildrenSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Children
+        # fieds = ("id", "username")
