@@ -35,7 +35,11 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
       </div>
       <div class="col">
         <div class="IconButtonWrapper position-relative mx-auto">
-          <BaseIconButton name="出欠"></BaseIconButton>
+          <BaseIconButton name="出欠">
+            <template v-slot:BaseIconButton>
+              <i class="fa-solid fa-user fa-2xs"></i>
+            </template>
+          </BaseIconButton>
         </div>
       </div>
       <div class="col"></div>
