@@ -4,6 +4,8 @@ import { RouterLink, RouterView } from 'vue-router';
 
 
 
+
+
 </script>
 
 <template>
@@ -22,6 +24,9 @@ import { RouterLink, RouterView } from 'vue-router';
   </header>
   <div class="ContentArea container">
     <!--以下にコンテンツを配置-->
+    <router-link to="/"></router-link>
+    <router-view></router-view>
+    
   </div>
   <footer class="Footer fixed-bottom shadow-lg">
     <div class="row" >
@@ -52,6 +57,12 @@ import { RouterLink, RouterView } from 'vue-router';
 
 .ContentArea {
   overflow: auto;
+  margin-top: 35%;
+  height: 100%;
+}
+
+.ContentArea > .row {
+  margin-bottom: 10%;
 }
 
 .Footer{
