@@ -1,4 +1,4 @@
-from attendance.database import db
+from attendance.database import db, ma
 from .attendance import Attendance
 
 class Teachers(db.Model):
@@ -18,3 +18,7 @@ class Teachers(db.Model):
 
     # レコード作成日時
     created_at = db.Column(db.DateTime, nullable = False)
+
+class TeachersSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Teachers

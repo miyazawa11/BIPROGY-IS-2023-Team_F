@@ -1,4 +1,4 @@
-from attendance.database import db
+from attendance.database import db, ma
 
 class Attendance(db.Model):
     """
@@ -15,4 +15,6 @@ class Attendance(db.Model):
     checked_by = db.Column(db.Integer, db.ForeignKey("teachers_table.id"))  # FK子側
     reply_to_reason =db.Column(db.String(500), nullable = True)
 
-
+class Attendance_schema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Attendance
