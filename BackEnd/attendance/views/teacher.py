@@ -26,7 +26,6 @@ def reserve():
         # 園児のIDしか指定されていない時
         elif date is None:
             attendances = attendance.Attendance.query.filter_by(id_children=child_id).all()
-            print(attendances[0].id_children)
             attendance_schema = attendance.Attendance_schema(many=True).dump(attendances)
         
         # 日付しか指定されていない時
@@ -78,6 +77,7 @@ def reserve():
         child_id = request.args.get('child', type=int)
         date = request.args.get('date')
 
+        # 園児のIDと日付がどちらも指定されていない場合はエラーレスポンスを返す
         if child_id is None or date is None:
             return "Error: You should specify both child_id and date", 400
 
@@ -86,8 +86,12 @@ def reserve():
         day = datetime.date(year=date_split[0], month=date_split[1], day=date_split[2])
         att = attendance.Attendance.query.filter_by(id_children=child_id, date=day).one()
 
+        # その日の出欠が登録されていない場合はエラーレスポンスを返す
         if att is None:
             return "Error: This attendance has not reserved yet", 400
+
+        if ('reply_to_reason' in request.form):
+            att.reply_to_reason = request.form['reply_to_reason']
 
 
         att.is_accepted = not att.is_accepted
