@@ -27,5 +27,4 @@ def create_app():
     app.register_blueprint(teacher_bp, url_prefix='/api/teacher/')
 
     return app
-
 app = create_app()
