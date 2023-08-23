@@ -84,7 +84,7 @@ def reserve():
         date_split = date.split('_')
         date_split = [int(date) for date in date_split]
         day = datetime.date(year=date_split[0], month=date_split[1], day=date_split[2])
-        att = attendance.Attendance.query.filter_by(id_children=child_id, date=day).first()
+        att = attendance.Attendance.query.filter_by(id_children=child_id, date=day).one()
 
         if att is None:
             return "Error: This attendance has not reserved yet", 400
