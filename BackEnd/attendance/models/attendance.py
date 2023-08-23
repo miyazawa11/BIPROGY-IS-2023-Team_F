@@ -15,6 +15,22 @@ class Attendance(db.Model):
     checked_by = db.Column(db.Integer, db.ForeignKey("teachers_table.id"))  # FK子側
     reply_to_reason =db.Column(db.String(500), nullable = True)
 
+<<<<<<< HEAD
 class Attendance_schema(ma.SQLAlchemyAutoSchema):
+=======
+    def commit():
+        db.session.commit()
+
+    def add_commit(record):
+        db.session.add(record)
+        db.session.commit()
+    
+    def delete_commit(record):
+        db.session.delete(record)
+        db.session.commit()
+
+
+class AttendanceSchema(ma.SQLAlchemyAutoSchema):
+>>>>>>> develop
     class Meta:
         model = Attendance
