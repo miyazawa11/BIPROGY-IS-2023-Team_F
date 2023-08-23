@@ -23,8 +23,8 @@ def create_app():
     db.init_app(app)
 
     # routingと処理内容を記述したスクリプトを登録
-    app.register_blueprint(child_bp, url_prefix='/api')
-    app.register_blueprint(teacher_bp, url_prefix='/api')
+    app.register_blueprint(child_bp, url_prefix='/api/children/')
+    app.register_blueprint(teacher_bp, url_prefix='/api/teacher/')
 
     return app
 
