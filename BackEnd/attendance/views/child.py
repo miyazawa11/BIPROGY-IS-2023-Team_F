@@ -8,8 +8,12 @@ child_bp = Blueprint('child', __name__)
 def children():
 
     id_children = request.args.get('id_children')
-    date = request.args.get('date')
-    print(date)
+    date = request.args.get('date')     # YYYY_MM_DDを想定
+    
+    # YYYY_MM_DD -> YYYY-MM-DDに変換
+    date_split = date.split('_')
+    date_split = [int(date) for date in date_split]
+    day = datetime.date(year=date_split[0], month=date_split[1], day=date_split[2])
     if id_children == None or date == None: return 'error', 400
     
     if request.method == 'POST':
@@ -19,10 +23,6 @@ def children():
         入力 : ユーザー名, 日時, 出欠, 欠席理由
         出力 : ユーザー名, 日時, 出欠, 欠席理由 を入力してレコード追加
         """
-        # date_split = date.split('_')
-        # date_split = [int(date) for date in date_split]
-        # day = datetime.date(year=date_split[0], month=date_split[1], day=date_split[2])
-        # attendances = attendance.Attendance.query.filter_by(date=day).all()
         submitted_presence = request.form.get('submitted_presence')
         if submitted_presence == None: return 'error', 400
         reason = request.form.get('reason')
@@ -32,7 +32,7 @@ def children():
     else:
         # GET, PUTではデータの取得部分は共通
         
-        record = attendance.Attendance.query.filter_by(id_children = id_children, date = date)
+        record = attendance.Attendance.query.filter_by(id_children = id_children, date = day)
         # record = attendance.Attendance.query.all()
         # print(record)
         if request.method == 'GET':
