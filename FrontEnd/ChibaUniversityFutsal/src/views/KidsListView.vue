@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from 'vue-router';
 const kids=([
     {id:1,name:"みやざわ こうき",attend:true,confirm:false},
     {id:2,name:"みやざわ こうき",attend:true,confirm:true},
@@ -44,7 +45,9 @@ const kids=([
                         </div>
                         <label class="col-2  mx-auto form-check-label" :for="`checkbox-${kid.id}`">id:{{ kid.id }}</label>
                         <div class="col-5  mx-auto">
-                            <button type="button" class="btn hover:btn-light">{{ kid.name }}</button>
+                            <routerLink :to="{name:'KidDetailViewPage',params:{id:kid.id}}">
+                                <button type="button" class="btn hover:btn-light">{{ kid.name }}</button>
+                            </routerLink>
                         </div>
                         <div class="col-2  mx-auto" v-if="kid.attend">〇</div>
                         <div class="col-2  mx-auto" v-else>×</div>
