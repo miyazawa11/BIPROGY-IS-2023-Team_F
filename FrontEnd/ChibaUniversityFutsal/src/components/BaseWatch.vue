@@ -1,52 +1,38 @@
 <template>
-    <div id="watch">
-        <div id="watch-large">
-            {{ currentTime }}:
-        </div>
-        <div id="watch-seconds">
-            {{ currentTimeSeconds }}
-        </div>
-    </div>
+  <div>
+    <div class="fw-bold fs-1">{{ year }}/{{ month }}/{{ day }}</div>
+    <div class="fw-bold" style="font-size: 3rem;">{{ amPm }}{{ hour }}:{{ minute }}<span class="fs-3 pl-3 fw-semibold">{{ second }}</span> </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted } from 'vue';
 
-const currentTime = ref('');
-const currentTimeSeconds = ref('');
+const year = ref('');
+const month = ref('');
+const day = ref('');
+const hour = ref('');
+const minute = ref('');
+const second = ref('');
+const amPm = ref('');
 
-const updateTime = () => {
+const updateDateTime = () => {
   const now = new Date();
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  currentTime.value = `${hours}:${minutes}`;
-  currentTimeSeconds.value=seconds
+  year.value = now.getFullYear();
+  month.value = now.getMonth() + 1;
+  day.value = now.getDate();
+  hour.value = String(now.getHours() % 12 || 12).padStart(2, '0');
+  minute.value = String(now.getMinutes()).padStart(2, '0');
+  second.value = String(now.getSeconds()).padStart(2, '0');
+  amPm.value = now.getHours() < 12 ? 'AM' : 'PM';
 };
 
-let intervalId;
-
 onMounted(() => {
-  updateTime();
-  intervalId = setInterval(updateTime, 1000);
-});
-
-onBeforeUnmount(() => {
-  clearInterval(intervalId);
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
 });
 </script>
 
-<style>
-#watch{
-    /*コレ*/display: flex;
-    /*コレ*/align-items: flex-end;
-}
-#watch-large{
-    font-size: xx-large;
-}
-#watch-seconds{
-    font-size: x-large;
-    align-items: end;
-    padding-bottom: 3px;
-}
+<style scoped>
+/* Add your component-specific styles here */
 </style>
