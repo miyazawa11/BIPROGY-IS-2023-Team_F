@@ -45,14 +45,14 @@ def reserve():
 
         return attendance_schema
     
-    if request.method == 'POST':
+    elif request.method == 'POST':
         payload = request.form
 
         id_children = payload['id_children']
-        submitted_presence = True if payload['submitted_presence'] == 1 else False
-        was_present = True if payload['was_present'] == 1 else False
+        submitted_presence = True if payload['submitted_presence'] == 'True' else False
+        was_present = True if payload['was_present'] == 'True' else False
         reason = payload['reason']
-        is_accepted = True if payload['is_accepted'] == 1 else False
+        is_accepted = True if payload['is_accepted'] == 'True' else False
         reply_to_reason = payload['reply_to_reason']
 
         date = payload['date']
@@ -73,9 +73,9 @@ def reserve():
 
         return "OK", 200
 
-    if request.method == 'PUT':
-        id_children = request.args.get('id_children', type=int)
-        date = request.args.get('date')
+    elif request.method == 'PUT':
+        id_children = request.form['id_children']
+        date = request.form['date']
 
         # 園児のIDと日付がどちらも指定されていない場合はエラーレスポンスを返す
         if id_children is None or date is None:
@@ -84,7 +84,7 @@ def reserve():
         date_split = date.split('_')
         date_split = [int(date) for date in date_split]
         day = datetime.date(year=date_split[0], month=date_split[1], day=date_split[2])
-        att = attendance.Attendance.query.filter_by(id_children=id_children, date=day).one()
+        att = attendance.Attendance.query.filter_by(id_children=id_children, date=day).first()
 
         # その日の出欠が登録されていない場合はエラーレスポンスを返す
         if att is None:
@@ -92,9 +92,9 @@ def reserve():
 
         if ('reply_to_reason' in request.form):
             att.reply_to_reason = request.form['reply_to_reason']
+        is_accepted = True if request.form['is_accepted'] == 'True' else False
 
-
-        att.is_accepted = not att.is_accepted
+        att.is_accepted = is_accepted
 
         db.session.commit()
 
