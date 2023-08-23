@@ -12,10 +12,10 @@ import BaseButton from '@/components/BaseButton.vue';
       <div class="col">
         <div class="button">
           <div class="left-button">
-            <BaseButton name="保護者" color="#ffddbd" size="20px" link='/attend'></BaseButton>
+            <BaseButton name="保護者" color="#ffddbd" size="20px" link='/guardians/attend'></BaseButton>
           </div>
           <div class="right-button">
-            <BaseButton name="保育者" color="#cad6fd" size="20px" link=''></BaseButton>
+            <BaseButton name="保育者" color="#cad6fd" size="20px" link='/nursery/confirm'></BaseButton>
           </div>
         </div>
       </div> 
