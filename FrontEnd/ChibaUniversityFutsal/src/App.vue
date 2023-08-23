@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import BaseIconButton from "@/components/BaseIconButton.vue";
-import KidsListView from './views/KidsListView.vue';
+
 </script>
 
 <template>
@@ -21,12 +21,14 @@ import KidsListView from './views/KidsListView.vue';
     </div>
   </header>
   <div class="d-flex align-items-center justify-content-center min-vh-100">
-    <!--以下にコンテンツを配置-->
+    <!--以下にコンテンツを配置
     <div class="">
       <router-link to="/"></router-link>
       <!-- <KidsListView></KidsListView> -->
       <router-view></router-view>
     </div>
+    -->
+    <BaseCalender></BaseCalender>
   </div>
   <footer class="Footer fixed-bottom shadow-lg">
     <div class="row" >
