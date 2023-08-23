@@ -50,7 +50,8 @@ with app.app_context():
 id_child = child.id
 submitted_presence = True
 was_present = True
-date= datetime.datetime.now()
+date= datetime.date.today()
+print(date)
 reason = "hoge"
 is_accepted = True
 checked_by = teacher.id
