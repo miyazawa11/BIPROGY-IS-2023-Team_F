@@ -4,6 +4,21 @@ import { RouterLink, RouterView } from 'vue-router';
 
 import BaseIconButton from "@/components/BaseIconButton.vue";
 
+const clickHandler = () => {
+  console.log("click");
+
+  const formData = new FormData();
+  formData.append("submitted_presence", "True");
+  formData.append("reason", "TEST");
+
+  fetch('http://127.0.0.1:5000/api/children/reserve?id_children=1&date=2023_08_28', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+}
 </script>
 
 <template>
@@ -33,7 +48,7 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
       </div>
       <div class="col">
         <div class="IconButtonWrapper position-relative mx-auto">
-          <BaseIconButton name="出欠">
+          <BaseIconButton name="出欠" @click="clickHandler">
             <template v-slot:BaseIconButton>
               <i class="fa-solid fa-user fa-2xs"></i>
             </template>
@@ -45,7 +60,7 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
     <div class="row d-none d-md-block">
       <div class="col-3">
         <div class="IconButtonWrapper position-relative mx-auto">
-          <BaseIconButton name="出欠" class="IconButtonSize">
+          <BaseIconButton name="出欠" class="IconButtonSize" @click="clickHandler">
             <template v-slot:BaseIconButton>
               <i class="fa-solid fa-user fa-2xs"></i>
             </template>
