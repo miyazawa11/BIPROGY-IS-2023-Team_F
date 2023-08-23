@@ -6,16 +6,16 @@ import BaseButton from '@/components/BaseButton.vue';
 
 <template>
     <div class="row">
-        <BaseTitle title="あなたはどちらですか？"></BaseTitle>
+        <BaseTitle class="mb-5" title="あなたはどちらですか？"></BaseTitle>
     </div>
     <div class="row">
       <div class="col">
         <div class="button">
           <div class="left-button">
-            <BaseButton name="保護者" color="#ffddbd" size="40px" link='/guardians/attend'></BaseButton>
+            <BaseButton name="保護者" color="#ffddbd" size="70px" link='/guardians/attend'></BaseButton>
           </div>
           <div class="right-button">
-            <BaseButton name="保育者" color="#cad6fd" size="40px" link='/nursery/confirm'></BaseButton>
+            <BaseButton name="保育者" color="#cad6fd" size="70px" link='/nursery/confirm'></BaseButton>
           </div>
         </div>
       </div> 
