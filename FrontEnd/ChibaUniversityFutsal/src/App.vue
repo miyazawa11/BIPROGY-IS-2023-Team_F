@@ -11,11 +11,14 @@ const clickHandler = () => {
   formData.append("submitted_presence", "True");
   formData.append("reason", "TEST");
 
-  fetch('http://127.0.0.1:5000/api/children/reserve?id_children=1&date=2023_08_28', {
+  fetch('http://127.0.0.1:5000/api/children/reserve?id_children=1&date=2023_08_25', {
     method: 'POST',
     body: formData
   })
-  .then(response => response.json())
+  .then(response => {
+    console.log(response);
+    response.json()
+  })
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));
 }
