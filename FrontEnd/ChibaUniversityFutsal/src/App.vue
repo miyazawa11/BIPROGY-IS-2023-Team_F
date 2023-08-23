@@ -3,9 +3,6 @@ import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import BaseIconButton from "@/components/BaseIconButton.vue";
-import BaseCalender from "@/components/BaseCalender.vue";
-
-//NOTE:このブランチではApp.vueはコミットしない！！
 
 </script>
 
@@ -27,6 +24,7 @@ import BaseCalender from "@/components/BaseCalender.vue";
     <!--以下にコンテンツを配置
     <div class="">
       <router-link to="/"></router-link>
+      <!-- <KidsListView></KidsListView> -->
       <router-view></router-view>
     </div>
     -->
