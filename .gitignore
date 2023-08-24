@@ -2,5 +2,4 @@
 venv
 *.pyc
 *.pyo
-Backend/api_doc/image
 instance
