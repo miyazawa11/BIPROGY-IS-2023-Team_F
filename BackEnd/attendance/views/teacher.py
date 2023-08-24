@@ -206,3 +206,22 @@ def teacher_id():
         return jsonify(trg.Teachers.id),200
     else:
         return "bad request",400
+
+@teacher_bp.route('/cancel',methods=["GET"])
+def cancel_reserve_t():
+    req = request.args
+    if 'id_children' not in req or 'date' not in req:
+        return "bad request",400
+    date=datetime.datetime.strptime(req['date'].replace("_","-"),"%Y-%m-%d").date()
+    trg=db.session.execute(select(Attendance)\
+        .where(Attendance.id_children == req['id_children'],Attendance.date==date)).one_or_none()
+    if trg is not None:
+        t=db.session.get(Attendance,trg[0].id)
+        db.session.delete(t)
+    try:
+        db.session.flush()
+    except:
+        db.session.rollback()
+        return "invalid reserve",400
+    db.session.commit()
+    return "OK", 200

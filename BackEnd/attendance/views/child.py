@@ -131,7 +131,7 @@ def child_id():
         return "bad request",400
 
 @child_bp.route('/cancel',methods=["GET"])
-def cancel_reserve():
+def cancel_reserve_c():
     req = request.args
     if 'id_children' not in req or 'date' not in req:
         return "bad request",400
