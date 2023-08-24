@@ -26,10 +26,8 @@ const childIdInput = ref('');
 provide("chaildID",childIdInput);
 const saveChildId = () => { //次のルーティングページに遷移するボタン押下時に実行
   console.log("input", childIdInput.value);
-  savedChildId.value = childIdInput.value;
+  const savedChildId = childIdInput.value;
   console.log("saved", savedChildId);
-  const savedChildId = inject();
-  console.log(savedChildId);
 }
 
 </script>

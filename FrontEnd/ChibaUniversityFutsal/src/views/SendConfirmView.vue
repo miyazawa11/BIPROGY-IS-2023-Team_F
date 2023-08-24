@@ -3,15 +3,13 @@ import { ref, onMounted, onUnmounted, inject } from 'vue';
 import {useRoute} from 'vue-router'
 import BaseTitle from '@/components/BaseTitle.vue';
 import KidsDetail from '../components/KidsDetail.vue';
-import BaseCalender from '../components/BaseCalender.vue';
+import BaseCalender from '@/components/BaseCalender.vue';
 import BaseCalenderSumaho from '../components/BaseCalenderSumaho.vue';
 import ServerAPI from '../services/ServerAPI';
 
 const nowMonth = ref(new Date().getMonth() + 1);
 const nowDate = ref(new Date().getDate());
 const nowYear = ref(new Date().getFullYear());
-const childId = ref("1"); //TODO:App側で取得したidを入れる
-
 const isMdAndUp = ref(window.matchMedia('(min-width: 768px)').matches);
 const showWeeks = ref(-1);
 
@@ -52,12 +50,7 @@ onMounted(() => {
     showWeeks.value = isMdAndUp.value ? -1 : 2;
     onUnmounted(() => {
         mediaQueryList.removeEventListener('change', handler);
-    });
-
-    const savedId = inject('chaildID');
-    console.log("確認画面");
-    console.log(savedId);
-    
+    });    
 });
 
 const route =useRoute()

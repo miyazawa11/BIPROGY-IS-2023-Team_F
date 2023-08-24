@@ -12,8 +12,8 @@ const ModalOpen = ref(null)
 const abstract = ref('')
 const router = useRouter()
 const route = useRoute();
-const childId=route.params.id  //urlにある園児idの取得
-
+const childId= route.params.id  //urlにある園児idの取得
+console.log("ATTENDANCEVIEW ID初期値", childId)
 const transition = (link) => {
     //とりあえずここでAPIを呼び出す
     sendAbsence().then(() =>{
@@ -22,7 +22,9 @@ const transition = (link) => {
       console.log(error);
     }).finally(() =>{
       console.log('api POST end');
-      if(link.length!=0){
+      console.log("LINK",link)
+      if(link.length!=0) {
+        console.log("ROUTING")
         router.push(link)
       }
     });
@@ -37,9 +39,6 @@ onMounted(() => {
     mediaQueryList.addEventListener('change', handler);
     // 初期値を設定
     isMdAndUp.value = mediaQueryList.matches;
-    const saveChildId = inject('childId');
-    console.log("画面遷移後");
-    console.log(saveChildId.value);
     onUnmounted(() => {
         mediaQueryList.removeEventListener('change', handler);
     });
@@ -58,7 +57,7 @@ const sendAttendanceAPI = () => {
     isAttend.value = true;
 
     console.log('apiTest');
-    const id="1"; //todo: ここにApp側で取得したidを入れる
+    
 
     const post = async () => {
 
@@ -67,11 +66,12 @@ const sendAttendanceAPI = () => {
       const nowDate = new Date().getDate();
 
       const param = {
-        id: id,
+        id: childId,
         date: `${nowYear}_${nowMonth}_${nowDate}`,
         is_attendance: isAttend.value,
         abstract: abstract.value
       }
+      console.log("API REQUEST ATTENDANCE", param);
 
       const response = await api.registerChildAttendance(
         param.id,
@@ -94,7 +94,7 @@ const sendAbsence = async () => {
     const nowDate = new Date().getDate();
 
     const param = {
-        id: "1", //todo: ここにApp側で取得したidを入れる
+        id: childId,
         date: `${nowYear}_${nowMonth}_${nowDate}`,
         is_attendance: isAttend.value,
         abstract: abstract.value
@@ -145,7 +145,7 @@ const sendAbsence = async () => {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">中断</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="transition('confirm')">送信</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="transition(`/guardians/confirm/${childId}`)">送信</button>
           </div>
         </div>
       </div>

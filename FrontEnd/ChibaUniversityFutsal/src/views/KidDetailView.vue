@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import KidsDetail from '../components/KidsDetail.vue';
-import BaseCalender from '../components/BaseCalender.vue';
+import BaseCalender from '@/components/BaseCalender.vue';
 
 const nowMonth = ref(new Date().getMonth() + 1);
 const nowDate = ref(new Date().getDate());
