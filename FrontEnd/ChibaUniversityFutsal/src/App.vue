@@ -4,6 +4,8 @@ import { RouterLink, RouterView } from 'vue-router';
 
 import BaseIconButton from "@/components/BaseIconButton.vue";
 
+
+
 </script>
 
 <template>
@@ -20,7 +22,7 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
       </div>
     </div>
   </header>
-  <div class="ContentWrapper d-flex align-items-center py-sm-21 pt-sm-25 px-sm-0 overflow-hidden">
+  <div class="ContentWrapper d-flex align-items-center pt-sm-25 px-sm-2 overflow-hidden">
     <!--以下にコンテンツを配置-->
     <div class="ContentParent">
       <router-link to="/"></router-link>
@@ -75,7 +77,7 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
 .ContentWrapper {
   background-color: #ffffff;
   width: 100%;
-  height: 100vh;
+  height: 93vh;
   padding-top: 13%;
 }
 
@@ -121,9 +123,9 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
       height: 10vh !important;
   }
 
-  .px-sm-0 {
-      padding-right: 0 !important;
-      padding-left: 0 !important;
+  .px-sm-2 {
+      padding-right: 2rem !important;
+      padding-left: 2rem !important;
   }
 
   .py-sm-21 {
