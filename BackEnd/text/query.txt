@@ -77,5 +77,5 @@
   /id
     GET：教員ID取得
       対象：教員テーブル
-      入力：username
+      入力：username or id
       出力：対応する教員id
