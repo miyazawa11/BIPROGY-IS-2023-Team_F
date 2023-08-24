@@ -1,8 +1,9 @@
+from os import walk
 from flask import Flask, make_response, jsonify
 
 from .views.child import child_bp
 from .views.teacher import teacher_bp
-from attendance.database import db  # dbインスタンス(appとの紐づけ前)
+from attendance.database import db, init_db_command  # dbインスタンス(appとの紐づけ前)
 import config                       # 設定ファイル(文字列の形で読み込むのでVScodeだとnot accessed)
 
 # from flask_cors import CORS
@@ -21,11 +22,12 @@ def create_app():
     # DB設定を読み込む
     app.config.from_object('config.Config')
     db.init_app(app)
+    # コマンドを登録
+    app.cli.add_command(init_db_command)
 
     # routingと処理内容を記述したスクリプトを登録
     app.register_blueprint(child_bp, url_prefix='/api/children/')
     app.register_blueprint(teacher_bp, url_prefix='/api/teacher/')
 
     return app
-
 app = create_app()
