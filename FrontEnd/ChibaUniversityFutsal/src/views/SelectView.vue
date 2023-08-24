@@ -26,7 +26,7 @@ console.log(isMdAndUp.value);
 
 <template>
     <div class="row">
-        <BaseTitle title="あなたはどちらですか？"></BaseTitle>
+        <BaseTitle class="mb-5" title="あなたはどちらですか？"></BaseTitle>
     </div>
     <div class="row">
       <div class="col">
