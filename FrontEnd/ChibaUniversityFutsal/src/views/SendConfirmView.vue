@@ -5,8 +5,13 @@ import BaseTitle from '@/components/BaseTitle.vue';
 import KidsDetail from '../components/KidsDetail.vue';
 import BaseCalender from '../components/BaseCalender.vue';
 import BaseCalenderSumaho from '../components/BaseCalenderSumaho.vue';
+import ServerAPI from '../services/ServerAPI';
 
 const nowMonth = ref(new Date().getMonth() + 1);
+const nowDate = ref(new Date().getDate());
+const nowYear = ref(new Date().getFullYear());
+const childId = ref("1"); //TODO:App側で取得したidを入れる
+
 const isMdAndUp = ref(window.matchMedia('(min-width: 768px)').matches);
 const showWeeks = ref(-1);
 
@@ -87,7 +92,7 @@ console.log("送信されるIDは！！！"+childId)
         <div class="row">
             <div class="col">
                 <div class="mx-auto" :class="isMdAndUp ? 'w-50' : 'w-100'">
-                    <KidsDetail/>
+                    <KidsDetail :childId="childId" :date="nowYear + `_` + nowMonth + `_` + nowDate" />
                 </div>
             </div>
         </div>
