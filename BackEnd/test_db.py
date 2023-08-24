@@ -66,8 +66,11 @@ def create_attendance():
 
         for i in range(1, 15):
             id_child = child.id
-            submitted_presence = True
-            was_present = False
+            if i % 2 == 0:
+                submitted_presence = True
+            else:
+                submitted_presence = False
+            was_present = None
             date= datetime.date.today()-timedelta(days=i)
             reason = "今日も元気です。"
             is_accepted = False
