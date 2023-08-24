@@ -6,6 +6,9 @@ from attendance.database import db, ma
 import datetime
 import json
 import pprint
+from sqlalchemy import select, update
+from sqlalchemy.dialects.sqlite import insert as sqlite_upsert
+
 teacher_bp = Blueprint('teacher', __name__)
 
 @teacher_bp.route('/teacher', methods=['GET'])
@@ -19,14 +22,14 @@ def getlist():
     req = request.args
     if 'date' not in req:
         return "Arg 'date' is missing", 400
-    #dateはYYYY-MM-DD入力を想定
-    q_date = datetime.datetime.strptime(req['date'],'%Y-%m-%d').date()
+    #dateはYYYY-MM-DD YYYY_MM_DD入力を想定
+    q_date = datetime.datetime.strptime(req['date'].replace('_','-'),'%Y-%m-%d').date()
     reserved = db.session.execute(\
-        db.select(Attendance.id_children,Attendance.submitted_presence)\
+        select(Attendance.id_children,Attendance.submitted_presence,Attendance.was_present)\
             .filter(Attendance.date == q_date)).all()
     colname="is_"+DAYS_OF_WEEK[q_date.weekday()]
     scheduled = db.session.execute(\
-        db.select(Children.id, Children.first_name, Children.last_name)\
+        select(Children.id, Children.first_name, Children.last_name)\
             .filter(getattr(Children,colname) == True)).all()
 
     ret={}
@@ -35,20 +38,56 @@ def getlist():
             'id_children':e.id,\
             'first_name':e.first_name,\
             'last_name':e.last_name,\
-            'attend':True\
+            'attend':True,\
+            'was_present':None
         }
     for e in reserved:
         if e.id_children in ret:
             ret[e.id_children]['attend']=e.submitted_presence
+            ret[e.id_children]['was_present']=e.was_present
         else:
-            e_dat=db.session.get(Children, e.id_children)
+            e_dat:Children=db.session.get(Children, e.id_children)
+            assert e_dat is not None, "Wrong id_children"
             ret[e.id_children]={\
                 'id_children':e.id_children,\
                 'first_name':e_dat.first_name,\
                 'last_name':e_dat.last_name,\
-                'attend':e.submitted_presence
+                'attend':e.submitted_presence,\
+                'was_present':e.was_present
             }
     return list(ret.values())
+
+@teacher_bp.route('/list',methods=['POST', 'PUT'])
+def update_list():
+    #json配列を受け取る [ {'key': val},{'key': val}, ... ]
+    req = json.loads(request.data)
+    
+    for e in req:
+        if "id_children" not in e or "was_present" not in e:
+            return 'Wrong request', 400
+        date=datetime.date.today()
+        if "date" in e:
+            date = datetime.datetime.strptime(\
+                e['date'].replace('_','-'),'%Y-%m-%d').date()
+        trg=db.session.execute(select(Attendance)\
+            .filter(\
+                Attendance.id_children==e['id_children'],\
+                Attendance.date==date)).one_or_none()
+        if trg is not None:
+            trg.Attendance.was_present=e['was_present']
+        else:
+            record=Attendance(\
+                id_children=e['id_children'],
+                date=date,
+                was_present=e['was_present'])
+            db.session.add(record)
+    try:
+        db.session.flush()
+    except:
+        return 'Error', 500
+    db.session.commit()
+    
+    return 'OK',200
 
 @teacher_bp.route('/reserve', methods=['GET', 'POST', 'PUT'])
 def reserve():
@@ -79,7 +118,6 @@ def reserve():
             day = datetime.date(year=date_split[0], month=date_split[1], day=date_split[2])
             attendances = Attendance.query.filter_by(id_children=id_children, date=day).all()
             attendance_schema = AttendanceSchema(many=True).dump(attendances)
-        print(type(attendance_schema))
         return attendance_schema
     
     elif request.method == 'POST':
@@ -136,3 +174,4 @@ def reserve():
         db.session.commit()
 
         return "OK", 200
+    return "Somthing wrong", 400
