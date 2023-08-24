@@ -19,7 +19,13 @@ def children():
 
         # フォームの内容を取得
         submitted_presence = request.form.get('submitted_presence')
-        submitted_presence = True if submitted_presence == 'True' else False
+        if submitted_presence == 'True':
+            submitted_presence = True
+        elif submitted_presence == 'False':
+            submitted_presence = False
+        else:
+            submitted_presence = None
+
         reason = request.form.get('reason')
         id_children = request.form.get('id_children')
         date = request.form.get('date')     # YYYY_MM_DDを想定
@@ -38,7 +44,7 @@ def children():
             submitted_presence = submitted_presence,
             reason = reason,
             is_accepted = False,
-            was_present = False,
+            was_present = None,
             checked_by = None,
             reply_to_reason = None
         )
@@ -93,7 +99,12 @@ def children():
         # 編集後の内容を取得
         submitted_presence = request.form.get('submitted_presence')
         reason = request.form.get('reason')
-        submitted_presence = True if submitted_presence == 'True' else False
+        if submitted_presence == 'True':
+            submitted_presence = True
+        elif submitted_presence == 'False':
+            submitted_presence = False
+        else:
+            submitted_presence = None
 
         # 取得したレコードを更新して追加           
         record.submitted_presence = submitted_presence

@@ -86,8 +86,22 @@ def reserve():
         payload = request.form
 
         id_children = payload['id_children']
-        submitted_presence = True if payload['submitted_presence'] == 'True' else False
-        was_present = True if payload['was_present'] == 'True' else False
+        submitted_presence = payload['submitted_presence']
+        if submitted_presence == 'True':
+            submitted_presence = True
+        elif submitted_presence == 'False':
+            submitted_presence = False
+        else:
+            submitted_presence = None
+
+        was_present = payload['was_present']
+        if was_present == 'True':
+            was_present = True
+        elif was_present == 'False':
+            was_present = False
+        else:
+            was_present = None
+
         reason = payload['reason']
         is_accepted = True if payload['is_accepted'] == 'True' else False
         reply_to_reason = payload['reply_to_reason']
