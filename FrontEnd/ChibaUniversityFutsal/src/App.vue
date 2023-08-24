@@ -1,11 +1,19 @@
 <script setup>
 import { ref } from 'vue';
-import { RouterLink, RouterView } from 'vue-router';
-
+import { useRouter } from 'vue-router';
 import BaseIconButton from "@/components/BaseIconButton.vue";
+const router = useRouter();
+let path = router.currentRoute.value.path;
 
-
-
+const transition = () => {
+  path = router.currentRoute.value.path;
+  if (path.indexOf('guardians') > 0) {
+    router.push('/');
+  }
+  else if (path.indexOf('nursery') > 0) {
+    router.push('/nursery/confirm');
+  }
+}
 </script>
 
 <template>
@@ -47,9 +55,9 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
     <div class="row d-none d-sm-block">
       <div class="col-3">
         <div class="IconButtonWrapper position-relative mx-auto">
-          <BaseIconButton name="出欠" class="IconButtonSize">
+          <BaseIconButton name="終了" class="IconButtonSize" @click="transition">
             <template v-slot:BaseIconButton>
-              <i class="fa-solid fa-user fa-2xs"></i>
+              <i class="fa-solid fa-house"></i>
             </template>
           </BaseIconButton>
         </div>
