@@ -22,18 +22,15 @@ onMounted(() => {
 });
 
 const childIdInput = ref('');
-let savedChildId = inject('childId');
 
-provide(1,childIdInput.value);
+provide("chaildID",childIdInput);
 const saveChildId = () => { //次のルーティングページに遷移するボタン押下時に実行
-  
   console.log("input", childIdInput.value);
   savedChildId.value = childIdInput.value;
   console.log("saved", savedChildId);
-  const savedChildId = inject(1);
+  const savedChildId = inject();
   console.log(savedChildId);
 }
-
 
 </script>
 

@@ -51,7 +51,7 @@ console.log(isMdAndUp.value);
         <div class="row justify-content-center my-md-8">
           <!-- スマホレイアウトではcol-6を使用してボタンを横並びにし、PCレイアウトではcol-12を使用してボタンを縦並びにします -->
           <div class="col-6 col-md-12 w-fit mx-auto">
-              <BaseButton name="出席" color="#ffddbd" :size="isMdAndUp ? '60px' : '40px'" link="confirm" @click="hozon"></BaseButton>
+              <BaseButton name="出席" color="#ffddbd" :size="isMdAndUp ? '60px' : '40px'" :link="`/guardians/confirm/${childId}`" @click="hozon"></BaseButton>
           </div>
           <div class="col-6 col-md-12 w-fit mx-auto">
               <BaseButton name="欠席" color="#cad6fd" :size="isMdAndUp ? '60px' : '40px'" link="" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="hozon"></BaseButton>

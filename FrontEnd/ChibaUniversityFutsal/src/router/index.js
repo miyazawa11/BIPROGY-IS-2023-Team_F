@@ -19,7 +19,7 @@ const router = createRouter({
       component: AttendanceView
     },
     {
-      path: '/guardians/confirm',
+      path: '/guardians/confirm/:id',
       name: 'SendConfirmPage',
       component: SendConfirmView
     },
