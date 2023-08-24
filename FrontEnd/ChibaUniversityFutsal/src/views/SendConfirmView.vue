@@ -3,10 +3,33 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import BaseTitle from '@/components/BaseTitle.vue';
 import KidsDetail from '../components/KidsDetail.vue';
 import BaseCalender from '../components/BaseCalender.vue';
+import BaseCalenderSumaho from '../components/BaseCalenderSumaho.vue';
 
 const nowMonth = ref(new Date().getMonth() + 1);
 const isMdAndUp = ref(window.matchMedia('(min-width: 768px)').matches);
-const showWeeks = ref(-1)
+const showWeeks = ref(-1);
+
+// 選択された月と年
+const selectedMonth = ref(8);
+const selectedYear = ref(2023);
+const selectedDay = ref(15)
+// 日付ごとの色情報
+const dateColors = ref([
+  { day: 5, month: selectedMonth.value, color: 'blue' },
+  { day: 15, month: selectedMonth.value, color: 'green' },
+  // 他の日付の色情報も追加
+]);
+
+// カレンダーコンポーネントからの選択日付のハンドラ
+const handleSelectedDate = (selectedDate) => {
+  console.log('選択された日付:', selectedDate);
+};
+
+// カレンダーコンポーネントからの月変更のハンドラ
+const handleMonthChange = (newMonth) => {
+  selectedMonth.value = newMonth;
+  console.log('月が変更されました:', selectedMonth.value);
+};
 
 onMounted(() => {
     const mediaQueryList = window.matchMedia('(min-width: 768px)');
@@ -27,6 +50,7 @@ onMounted(() => {
 });
 
 
+
 </script>
 
 <template>
@@ -41,7 +65,15 @@ onMounted(() => {
                 </div>
             </div>
             <div class="col-12 col-md">
-                <BaseCalender :month="nowMonth" :weeks-to-show="showWeeks"/>
+                <BaseCalender
+                  :day="selectedDay"
+                  :month="selectedMonth"
+                  :year="selectedYear"
+                  :weeksToShow="5"
+                  :dateColors="dateColors"
+                  @update:selectedDate="handleSelectedDate"
+                  :onMonthChange="handleMonthChange"
+                  />
             </div>
         </div>
         <div class="row">
