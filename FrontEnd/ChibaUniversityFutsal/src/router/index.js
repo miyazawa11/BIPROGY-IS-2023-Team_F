@@ -14,7 +14,7 @@ const router = createRouter({
       component: SelectView
     },
     {
-      path: '/guardians/attend',
+      path: '/guardians/:id',
       name: 'attendPage',
       component: AttendanceView
     },

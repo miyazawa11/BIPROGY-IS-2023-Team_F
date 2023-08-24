@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { inject } from 'vue';
+import { provide } from 'vue';
 import BaseTitle from '@/components/BaseTitle.vue';
 import BaseButton from '@/components/BaseButton.vue';
 
@@ -23,11 +24,14 @@ onMounted(() => {
 const childIdInput = ref('');
 let savedChildId = inject('childId');
 
-
+provide(1,childIdInput.value);
 const saveChildId = () => { //次のルーティングページに遷移するボタン押下時に実行
+  
   console.log("input", childIdInput.value);
   savedChildId.value = childIdInput.value;
-  console.log("saved", savedChildId.value);
+  console.log("saved", savedChildId);
+  const savedChildId = inject(1);
+  console.log(savedChildId);
 }
 
 
@@ -41,10 +45,10 @@ const saveChildId = () => { //次のルーティングページに遷移する�
       <div class="col">
         <div class="button">
           <div class="left-button">
-            <BaseButton name="保護者" color="#ffddbd" :size="isMdAndUp ? '40px' : '30px'" link='/guardians/attend' @click="saveChildId"></BaseButton>
+            <BaseButton name="保護者" color="#ffddbd" :size="isMdAndUp ? '40px' : '30px'" :link="`/guardians/${childIdInput}`" @click="saveChildId"></BaseButton>
           </div>
           <div class="right-button">
-            <BaseButton name="保育者" color="#cad6fd" :size="isMdAndUp ? '40px' : '30px'" link='/nursery/confirm'></BaseButton>
+            <BaseButton name="保育者" color="#cad6fd" :size="isMdAndUp ? '40px' : '30px'" link="/nursery/confirm"></BaseButton>
           </div>
         </div>
       </div>

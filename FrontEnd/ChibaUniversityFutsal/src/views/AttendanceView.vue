@@ -1,21 +1,22 @@
 <script setup>
 import { ref,onMounted, onUnmounted, inject } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseWatch from '@/components/BaseWatch.vue';
 
 const ModalOpen = ref(null)
 const abstract = ref('')
 const router = useRouter()
+const route = useRoute();
+const childId=route.params.id  //urlにある園児idの取得
+
 const transition = (link) => {
     if(link.length!=0){
         router.push(link)
     }
 }
-
 // メディアクエリを使用して、画面の幅が中サイズ以上かどうかを判定,リサイズを監視し、レイアウトを変更できるようにする
 const isMdAndUp = ref(window.matchMedia('(min-width: 768px)').matches);
-
 onMounted(() => {
     const mediaQueryList = window.matchMedia('(min-width: 768px)');
     const handler = (e) => {
@@ -32,6 +33,9 @@ onMounted(() => {
     });
 });
 
+const hozon=()=>{
+    console.log("送信されるIDは"+childId);
+}
 console.log(isMdAndUp.value);
 </script>
 
@@ -47,10 +51,10 @@ console.log(isMdAndUp.value);
         <div class="row justify-content-center my-md-8">
           <!-- スマホレイアウトではcol-6を使用してボタンを横並びにし、PCレイアウトではcol-12を使用してボタンを縦並びにします -->
           <div class="col-6 col-md-12 w-fit mx-auto">
-              <BaseButton name="出席" color="#ffddbd" :size="isMdAndUp ? '60px' : '40px'" link="confirm"></BaseButton>
+              <BaseButton name="出席" color="#ffddbd" :size="isMdAndUp ? '60px' : '40px'" link="confirm" @click="hozon"></BaseButton>
           </div>
           <div class="col-6 col-md-12 w-fit mx-auto">
-              <BaseButton name="欠席" color="#cad6fd" :size="isMdAndUp ? '60px' : '40px'" link="" data-bs-toggle="modal" data-bs-target="#exampleModal"></BaseButton>
+              <BaseButton name="欠席" color="#cad6fd" :size="isMdAndUp ? '60px' : '40px'" link="" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="hozon"></BaseButton>
           </div>
         </div>
       </div>
