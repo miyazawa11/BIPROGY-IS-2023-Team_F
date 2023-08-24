@@ -138,13 +138,15 @@ def cancel_reserve_c():
     date=datetime.datetime.strptime(req['date'].replace("_","-"),"%Y-%m-%d").date()
     trg=db.session.execute(select(Attendance)\
         .where(Attendance.id_children == req['id_children'],Attendance.date==date)).one_or_none()
-    if trg is not None:
-        t=db.session.get(Attendance,trg[0].id)
-        db.session.delete(t)
+    if trg is None:
+        return "Invalid record",400
+    t=db.session.get(Attendance,trg[0].id)
+    print(t)
+    db.session.delete(t)
     try:
         db.session.flush()
     except:
         db.session.rollback()
-        return "invalid reserve",400
+        return "DB Error",500
     db.session.commit()
     return "OK", 200
