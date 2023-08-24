@@ -1,7 +1,8 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from attendance.models import child
 from attendance.models import attendance
 from attendance.database import db
+from sqlalchemy import select
 import datetime
 child_bp = Blueprint('child', __name__)
 
@@ -85,3 +86,19 @@ def children():
             record.first().reason = request.form.get('reason')
             attendance.Attendance.commit()
             return "OK", 200
+
+@child_bp.route('/id',methods=["GET"])
+def teacher_id():
+    req=request.args
+    if 'id' in req:
+        trg=db.session.get(child.Children, req['id'])
+        if trg is None:
+            return "Invalid id", 400
+        return trg.username,200
+    if 'username' in req:
+        trg=db.session.execute(select(child.Children).filter(child.Children.username==req['username'])).one_or_none()
+        if trg is None:
+            return "Invalid username", 400
+        return jsonify(trg.Children.id),200
+    else:
+        return "bad request",400

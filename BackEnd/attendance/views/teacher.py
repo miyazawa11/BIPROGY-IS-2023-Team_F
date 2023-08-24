@@ -175,3 +175,20 @@ def reserve():
 
         return "OK", 200
     return "Somthing wrong", 400
+
+@teacher_bp.route('/id',methods=["GET"])
+def teacher_id():
+    req=request.args
+    if 'id' in req:
+        trg=db.session.get(Teachers, req['id'])
+        if trg is None:
+            return "Invalid id", 400
+        return trg.username,200
+    if 'username' in req:
+        trg=db.session.execute(select(Teachers).filter(Teachers.username==req['username'])).one_or_none()
+        if trg is None:
+            return "Invalid username", 400
+        return jsonify(trg.Teachers.id),200
+    else:
+        return "bad request",400
+    
