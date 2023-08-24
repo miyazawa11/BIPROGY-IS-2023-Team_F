@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, inject } from 'vue';
+import {useRoute} from 'vue-router'
 import BaseTitle from '@/components/BaseTitle.vue';
 import KidsDetail from '../components/KidsDetail.vue';
 import BaseCalender from '../components/BaseCalender.vue';
@@ -52,8 +53,16 @@ onMounted(() => {
     onUnmounted(() => {
         mediaQueryList.removeEventListener('change', handler);
     });
+
+    const savedId = inject('chaildID');
+    console.log("確認画面");
+    console.log(savedId);
+    
 });
 
+const route =useRoute()
+const childId=route.params.id  //urlにある園児idの取得
+console.log("送信されるIDは！！！"+childId)
 
 </script>
 
