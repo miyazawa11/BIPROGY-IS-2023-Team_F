@@ -5,8 +5,8 @@ from attendance.models.teacher import Teachers, TeachersSchema
 from attendance.database import db, ma
 import datetime
 import json
-import pprint
-from sqlalchemy import select, update
+import inspect
+from sqlalchemy import select, or_
 from sqlalchemy.dialects.sqlite import insert as sqlite_upsert
 
 teacher_bp = Blueprint('teacher', __name__)
@@ -227,3 +227,60 @@ def cancel_reserve_t():
         return "DB Error",500
     db.session.commit()
     return "OK", 200
+
+@teacher_bp.route('/search',methods=["GET"])
+def search_children():
+    req = request.args
+    if 'name' not in req and 'date' not in req and 'dow' not in req:
+        ret = db.session.execute(select(Children)).all()
+        return ChildrenSchema(many=True).dump([ e[0] for e in ret ]), 200
+    stmt=select(Children)
+    idlist=set()
+    datesearch=False
+    q_date=None
+    
+    if 'date' in req:
+        datesearch=True
+        q_date=datetime.datetime.strptime(req['date'].replace("_","-"),"%Y-%m-%d").date()
+        candidate_dt=db.session.execute(select(Attendance.id_children)\
+            .where(Attendance.date==q_date)).all()
+        for e in candidate_dt:
+            idlist.add(e[0])
+
+    if 'dow' in req or 'date' in req:
+        datesearch=True
+        if 'dow' not in req:
+            assert q_date
+            dow=q_date.weekday()
+        else:
+            dow=int(req['dow'])
+        if q_date is not None and (dow!=q_date.weekday()):
+            return jsonify([]),200
+        colname="is_"+DAYS_OF_WEEK[dow]
+        candidate_dw=db.session.execute(select(Children.id)\
+            .filter(getattr(Children,colname) == True)).all()
+        for e in candidate_dw:
+            idlist.add(e[0])
+    print("!")
+    print(idlist)
+    idlist=list(idlist)
+    if datesearch and (not idlist):
+        return jsonify([]),200
+    else:
+        stmt=stmt.filter(Children.id.in_(idlist))
+    
+    if 'name' in req:
+        q_name=req['name']
+        stmt=stmt.filter(or_(\
+            Children.first_name.contains(q_name),
+            Children.last_name.contains(q_name),
+            Children.kana_first_name.contains(q_name),
+            Children.kana_last_name.contains(q_name),
+            (Children.last_name+Children.last_name).contains(q_name),
+            (Children.kana_last_name+Children.kana_last_name).contains(q_name)
+        ))
+    print(idlist)
+    result=db.session.execute(stmt).all()
+    ret=[ e[0] for e in result ]
+    print(ChildrenSchema(many=True).dump(ret))
+    return ChildrenSchema(many=True).dump(ret), 200
