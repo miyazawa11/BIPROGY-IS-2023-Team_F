@@ -1,5 +1,5 @@
 <script setup>
-import { ref,onMounted, onUnmounted } from 'vue';
+import { ref,onMounted, onUnmounted, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseWatch from '@/components/BaseWatch.vue';
@@ -24,7 +24,9 @@ onMounted(() => {
     mediaQueryList.addEventListener('change', handler);
     // 初期値を設定
     isMdAndUp.value = mediaQueryList.matches;
-
+    const saveChildId = inject('childId');
+    console.log("画面遷移後");
+    console.log(saveChildId.value);
     onUnmounted(() => {
         mediaQueryList.removeEventListener('change', handler);
     });

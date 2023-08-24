@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, inject } from 'vue';
 import BaseTitle from '@/components/BaseTitle.vue';
 import KidsDetail from '../components/KidsDetail.vue';
 import BaseCalender from '../components/BaseCalender.vue';
@@ -47,6 +47,11 @@ onMounted(() => {
     onUnmounted(() => {
         mediaQueryList.removeEventListener('change', handler);
     });
+
+    const savedId = inject('childId');
+    console.log("確認画面");
+    console.log(savedId.value);
+    
 });
 
 
