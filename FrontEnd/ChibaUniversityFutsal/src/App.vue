@@ -44,7 +44,7 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
       </div>
       <div class="col"></div>
     </div>
-    <div class="row d-none d-md-block">
+    <div class="row d-none d-sm-block">
       <div class="col-3">
         <div class="IconButtonWrapper position-relative mx-auto">
           <BaseIconButton name="出欠" class="IconButtonSize">
@@ -118,7 +118,7 @@ import BaseIconButton from "@/components/BaseIconButton.vue";
 }
 
 /* スマホのみに適用 */
-@media (max-width: 767.98px) {
+@media (max-width:576px) {
   .vh-sm-10 {
       height: 10vh !important;
   }
