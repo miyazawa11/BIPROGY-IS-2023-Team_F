@@ -15,6 +15,11 @@ const props = defineProps({
     type: String,
     required: true
   },
+  useCommnent: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
 });
 
 const kid = reactive({
@@ -72,7 +77,10 @@ const getChildPresenceInfo = async () => {
     const response = await api.getChildAttendance(param.id, param.date);
     
     return response;
-    
+}
+
+const saveComment = () => {
+    //TODO:返信用APIを呼び出す
 }
 
 </script>
@@ -96,6 +104,11 @@ const getChildPresenceInfo = async () => {
             <div v-else>
                 <h5 class="card-title">出欠席の登録がありません。</h5>
             </div>
+        </div>
+        <div class="mt-3" v-if="props.useCommnent">
+            <label for="comment" class="form-label">保育士のコメント</label>
+            <textarea class="form-control" id="comment" rows="3"></textarea>
+            <button type="button" class="btn btn-warning mt-2" @click="saveComment">コメントを保存</button>
         </div>
     </div>
 </template>

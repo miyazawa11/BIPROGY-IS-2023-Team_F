@@ -138,7 +138,7 @@ onMounted(() => {
                     <p class="mx-5 mt-3 fw-bold" style="transform:scale(1.5)">{{ currentMonth }} / {{ currentDate }}</p>
                     <i class="fa-solid fa-chevron-right" @click="incrementDate"></i>
                 </div>
-                <KidsDetail v-if="!(isLoading)" :key="componentKey" :childId="childId" :date="`${currentYear}_${currentMonth}_${currentDate}`"/>
+                <KidsDetail v-if="!(isLoading)" :key="componentKey" :useCommnent="true" :childId="childId" :date="`${currentYear}_${currentMonth}_${currentDate}`"/>
             </div>
             <div class="col-md-4 mb-10">
                 <BaseLoadingSpinner v-if="isLoading" text="月の出欠情報を取得中..." style="transform:scale(1.5);"/>
