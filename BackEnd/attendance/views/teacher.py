@@ -83,10 +83,11 @@ def update_list():
             db.session.add(record)
     try:
         db.session.flush()
+        db.session.rollback()
     except:
-        return 'Error', 500
+        return 'DB Error', 500
     db.session.commit()
-    
+
     return 'OK',200
 
 @teacher_bp.route('/reserve', methods=['GET', 'POST', 'PUT'])

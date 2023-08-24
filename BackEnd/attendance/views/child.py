@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from attendance.models import child
 from attendance.models import attendance
+from attendance.models.attendance import Attendance
 from attendance.database import db
-from sqlalchemy import select
+from sqlalchemy import select, delete
 import datetime
 child_bp = Blueprint('child', __name__)
 
@@ -74,7 +75,7 @@ def children():
         # GET, PUTでデータの取得部分は共通
         record = attendance.Attendance.query.filter_by(id_children = id_children, date = day)
 
-        
+
         # 取得したレコードをjson化して返す
         record_json = attendance.AttendanceSchema(many = True).dump(record)
         return record_json
@@ -114,7 +115,7 @@ def children():
         return "OK", 200
 
 @child_bp.route('/id',methods=["GET"])
-def teacher_id():
+def child_id():
     req=request.args
     if 'id' in req:
         trg=db.session.get(child.Children, req['id'])
@@ -128,3 +129,22 @@ def teacher_id():
         return jsonify(trg.Children.id),200
     else:
         return "bad request",400
+
+@child_bp.route('/cancel',methods=["GET"])
+def cancel_reserve():
+    req = request.args
+    if 'id_children' not in req or 'date' not in req:
+        return "bad request",400
+    date=datetime.datetime.strptime(req['date'].replace("_","-"),"%Y-%m-%d").date()
+    trg=db.session.execute(select(Attendance)\
+        .where(Attendance.id_children == req['id_children'],Attendance.date==date)).one_or_none()
+    if trg is not None:
+        t=db.session.get(Attendance,trg[0].id)
+        db.session.delete(t)
+    try:
+        db.session.flush()
+    except:
+        db.session.rollback()
+        return "invalid reserve",400
+    db.session.commit()
+    return "OK", 200
