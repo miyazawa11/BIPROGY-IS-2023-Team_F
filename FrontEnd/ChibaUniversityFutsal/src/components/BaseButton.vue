@@ -22,7 +22,7 @@ const transition = (link) => {
 
 <template>
     <div>
-        <button @click="transition(link)" class="Button" type="button">
+        <button @click="transition(link)" class="Button p-3" type="button">
             {{ name }}
         </button>
     </div>
@@ -31,7 +31,7 @@ const transition = (link) => {
 <style scoped>
 button{
     background-color: v-bind(color);
-    border-radius: 20px;
+    border-radius: 30px;
     font-weight: bold;
     font-size: v-bind(size);
     transition: 300ms;
