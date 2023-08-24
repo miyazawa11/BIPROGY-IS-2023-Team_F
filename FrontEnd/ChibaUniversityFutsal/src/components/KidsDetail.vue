@@ -3,6 +3,9 @@ import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 console.log(route.params.id);
+
+/*以下はダミーデータ*/
+//Todo:APIからデータを取得する
 const kid={
         name:'みやざわこうき',
         attend:true,
@@ -22,7 +25,7 @@ onMounted(()=>{
 </script>
 
 <template>
-    <div class="card" style="width: 30rem;height: 15rem;">
+    <div class="card" style="width: auto;height: auto;">
         <div>
             <h5 class="card-header" style="display: flex; justify-content: space-between;">
                 <span>名前：{{ kid_.name }}</span>
