@@ -22,7 +22,7 @@
 - 指定日、指定園児の出欠予約の登録、確認、更新ができる。
 
 |function|method|parameter|supplement|
----|---|---|---
+|---|---|---|---|
 |出欠予約の登録情報を確認する|GET|`id_children`<br>`date`|-|
 |出欠予約を登録する|POST|`id_children`<br>`date`<br> `submitted_presence`<br>`reason`|`reason`は任意項目|
 |出欠予約の登録情報を更新する|PUT|`id_children`<br>`date`<br>`submitted_presence`<br>`reason`|`reason`は任意項目|
@@ -32,7 +32,7 @@
 - 指定日、指定園児の出欠予約の検索、登録、欠席理由への既読チェック、返信ができる。
 
 |function|method|parameter|supplement|
-|---|---|---|---|---|
+|---|---|---|---|
 |出欠予約の登録情報を検索する|GET|`id_children`<br>`date`|`id_children`,`date`は片方でOK|
 |出欠予約を登録する|POST|`id_children`<br>`date`<br> `submit_attendance`|`reason`は任意項目|
 |欠席理由への既読チェック、返信|PUT|`id_children`<br>`date`<br>`submitted_presence`<br>|`reply_to_reason`は任意項目|
