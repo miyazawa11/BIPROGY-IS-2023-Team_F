@@ -4,13 +4,25 @@ import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseWatch from '@/components/BaseWatch.vue';
 
+import ServerAPI from '../services/ServerAPI';
+
+const isAttend = ref(false);
+
 const ModalOpen = ref(null)
 const abstract = ref('')
 const router = useRouter()
 const transition = (link) => {
-    if(link.length!=0){
+    //とりあえずここでAPIを呼び出す
+    sendAbsence().then(() =>{
+      console.log('api POST success');
+    }).catch((error) =>{
+      console.log(error);
+    }).finally(() =>{
+      console.log('api POST end');
+      if(link.length!=0){
         router.push(link)
-    }
+      }
+    });
 }
 
 // メディアクエリを使用して、画面の幅が中サイズ以上かどうかを判定,リサイズを監視し、レイアウトを変更できるようにする
@@ -31,6 +43,67 @@ onMounted(() => {
 });
 
 console.log(isMdAndUp.value);
+
+/*出欠登録APIの呼び出し*/
+
+const api = new ServerAPI("http://127.0.0.1:5000");
+
+const sendAttendanceAPI = () => {
+    isAttend.value = true;
+
+    console.log('apiTest');
+    const id="1"; //todo: ここにApp側で取得したidを入れる
+
+    const post = async () => {
+
+      const nowYear = new Date().getFullYear();
+      const nowMonth = new Date().getMonth() + 1;
+      const nowDate = new Date().getDate();
+
+      const param = {
+        id: id,
+        date: `${nowYear}_${nowMonth}_${nowDate}`,
+        is_attendance: isAttend.value,
+        abstract: abstract.value
+      }
+
+      const response = await api.registerChildAttendance(
+        param.id,
+        param.date,
+        param.is_attendance,
+        param.abstract
+      );
+      console.log(response);
+    }
+    post().finally(() => {
+      console.log('api POST end');
+      router.push('confirm')
+    });
+}
+
+const sendAbsence = async () => {
+    isAttend.value = false;
+    const nowYear = new Date().getFullYear();
+    const nowMonth = new Date().getMonth() + 1;
+    const nowDate = new Date().getDate();
+
+    const param = {
+        id: "1", //todo: ここにApp側で取得したidを入れる
+        date: `${nowYear}_${nowMonth}_${nowDate}`,
+        is_attendance: isAttend.value,
+        abstract: abstract.value
+    }
+
+    console.log(param);
+    const response = await api.registerChildAttendance(
+        param.id,
+        param.date,
+        param.is_attendance,
+        param.abstract
+    );
+    console.log(response);
+}
+
 </script>
 
 <template>
@@ -45,7 +118,7 @@ console.log(isMdAndUp.value);
         <div class="row justify-content-center my-md-8">
           <!-- スマホレイアウトではcol-6を使用してボタンを横並びにし、PCレイアウトではcol-12を使用してボタンを縦並びにします -->
           <div class="col-6 col-md-12 w-fit mx-auto">
-              <BaseButton name="出席" color="#ffddbd" :size="isMdAndUp ? '60px' : '40px'" link="confirm"></BaseButton>
+              <BaseButton name="出席" color="#ffddbd" :size="isMdAndUp ? '60px' : '40px'" link="" @click="sendAttendanceAPI"></BaseButton>
           </div>
           <div class="col-6 col-md-12 w-fit mx-auto">
               <BaseButton name="欠席" color="#cad6fd" :size="isMdAndUp ? '60px' : '40px'" link="" data-bs-toggle="modal" data-bs-target="#exampleModal"></BaseButton>
