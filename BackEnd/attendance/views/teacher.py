@@ -92,7 +92,7 @@ def update_list():
 @teacher_bp.route('/reserve', methods=['GET', 'POST', 'PUT'])
 def reserve():
     if request.method == 'GET':
-        id_children = request.args.get('id_childlen', type=int)
+        id_children = request.args.get('id_children', type=int)
         date = request.args.get('date')
 
         # 園児のIDと日付がどちらも指定されていない場合はエラーレスポンスを返す
