@@ -14,12 +14,12 @@ const router = createRouter({
       component: SelectView
     },
     {
-      path: '/guardians/attend',
+      path: '/guardians/:id',
       name: 'attendPage',
       component: AttendanceView
     },
     {
-      path: '/guardians/confirm',
+      path: '/guardians/confirm/:id',
       name: 'SendConfirmPage',
       component: SendConfirmView
     },

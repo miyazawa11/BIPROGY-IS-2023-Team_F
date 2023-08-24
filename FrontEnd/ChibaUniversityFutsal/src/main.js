@@ -1,6 +1,6 @@
 import './assets/main.css'
 
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import App from './App.vue'
 import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -11,4 +11,7 @@ const app = createApp(App);
 
 app.use(router);
 app.use(vuetify);
+const childId = ref('');
+app.provide(/* key */ 'childId', /* value */ childId);
+
 app.mount('#app');
