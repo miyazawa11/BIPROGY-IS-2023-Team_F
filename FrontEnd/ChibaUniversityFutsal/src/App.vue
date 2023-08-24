@@ -43,9 +43,9 @@ const transition = () => {
       </div>
       <div class="col">
         <div class="IconButtonWrapper position-relative mx-auto">
-          <BaseIconButton name="出欠">
+          <BaseIconButton name="終了">
             <template v-slot:BaseIconButton>
-              <i class="fa-solid fa-user fa-2xs"></i>
+              <i class="fa-solid fa-house"></i>
             </template>
           </BaseIconButton>
         </div>
