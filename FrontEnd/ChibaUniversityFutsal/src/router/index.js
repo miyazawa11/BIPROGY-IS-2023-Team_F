@@ -4,6 +4,7 @@ import AttendanceView from '../views/AttendanceView.vue';
 import SendConfirmView from '../views/SendConfirmView.vue';
 import KidsListView from '../views/KidsListView.vue'
 import KidDetailView from '../views/KidDetailView.vue'
+import AttentionView from '../views/AttentionView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/guardians/confirm/:id',
       name: 'SendConfirmPage',
       component: SendConfirmView
+    },
+    {
+      path: '/guardians',
+      name: 'AttentionViewPage',
+      component: AttentionView
     },
     {
       path: '/nursery/confirm',

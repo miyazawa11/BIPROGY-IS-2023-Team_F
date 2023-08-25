@@ -93,19 +93,21 @@ const decrementDate = () => {
     });
 }
 
+const colClass = ref('col-3');
+
 </script>
 
 <template>
-    <div>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="btnradio1">Radio 1</label>
+    <div class="mb-10">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width:300px;">
+            <input type="radio" class="btn-check mx-auto" name="btnradio" id="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-outline-primary mx-auto" for="btnradio1">ID順</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label>
+            <input type="radio" class="btn-check mx-auto" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-primary mx-auto" for="btnradio2">チェック済み</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-            <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label>
+            <input type="radio" class="btn-check mx-auto" name="btnradio" id="btnradio3" autocomplete="off">
+            <label class="btn btn-outline-primary mx-auto" for="btnradio3">チェック無し</label>
         </div>
         <div class="row mt-5">
             <div class="d-flex justify-content-center align-items-center" style="transform:scale(1.5)">
@@ -128,9 +130,19 @@ const decrementDate = () => {
                             <routerLink :to="{name:'KidDetailViewPage',params:{id:kid.id}}">
                                 <button type="button" class="btn hover:btn-light">{{ kid.name }}</button>
                             </routerLink>
+        <div class="">
+            <nav class="p-6 mx-auto">
+                <ul class="list-group overflow-auto vh-65">
+                    <li class="list-group-item row d-flex d-flex align-items-center" v-for="kid in kids" :key="kid.id">
+                        <label :class="['fs-4', colClass, 'mx-auto', 'form-check-label', 'text-center', 'd-flex', 'align-items-center']" :for="`checkbox-${kid.id}`">{{ kid.id }}</label>
+                        <div :class="['mx-auto text-center', colClass, 'name-hover']">
+                            <router-link :to="{name:'KidDetailViewPage',params:{id:kid.id}}" class="name-hover" style="color: inherit;">
+                                <button type="button" class="fs-4">{{ kid.name }}</button>
+                            </router-link>
                         </div>
-                        <div class="col-2  mx-auto" v-if="kid.attend">〇</div>
-                        <div class="col-2  mx-auto" v-else>×</div>
+                        <span :class="['mx-auto fw-bolder fs-4 d-flex align-items-center', colClass]" style="vertical-align: middle;" v-if="kid.attend">出席</span>
+                        <span :class="['mx-auto fw-bolder fs-4 d-flex align-items-center', colClass]" style="vertical-align: middle;" v-else>欠席</span>
+                        <input :class="['form-check-input text-center d-flex align-items-center', colClass]" type="checkbox" v-model="kid.confirm">
                     </li>
                 </ul>
             </nav>
@@ -139,10 +151,19 @@ const decrementDate = () => {
 </template>
 
 <style scoped>
-.height {
-    height: 100vh; 
-    width:100%;
-    overflow-x: hidden; 
-    overflow-y: auto;
+.list-group {
+    overflow: auto;
+    max-height: 65vh;
+}
+.name-hover:hover {
+    background-color: #f0f0f0; /* 任意の色 */
+  }
+.form-check-input {
+  border-color: #0000ff !important;
+  width: 40px !important;  /* 幅 */
+  height: 40px !important; /* 高さ */
+  /* 以下の行は、大きさが変更された後の配置を調整します */
+  vertical-align: middle !important;
+  margin: 0 auto !important;
 }
 </style>
