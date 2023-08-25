@@ -12,6 +12,7 @@
 |`submitted_presence`|`bool`|登録する出欠(出席がTrue)|
 |`reply_to_reason`|`string`|欠席理由に対する返信|
 |`was_present`|`bool`|実際の出欠(出欠していればTrue)|
+|`is_accepted`|`bool`|出欠を保育士が確認したかのフラグ（確認したらTrue）|
 
 ## データベース構造
 ![ER図](image/ER.png)
@@ -28,16 +29,16 @@
 |出欠予約の登録情報を更新する|PUT|`id_children`<br>`date`<br>`submitted_presence`<br>`reason`|`reason`は任意項目|
 
 ## 保育士向け
-### `/api/teachers/reserve`
+### `/api/teacher/reserve`
 - 指定日、指定園児の出欠予約の検索、登録、欠席理由への既読チェック、返信ができる。
 
 |function|method|parameter|supplement|
 |---|---|---|---|
 |出欠予約の登録情報を検索する|GET|`id_children`<br>`date`|`id_children`,`date`は片方でOK|
 |出欠予約を登録する|POST|`id_children`<br>`date`<br> `submit_attendance`|`reason`は任意項目|
-|欠席理由への既読チェック、返信|PUT|`id_children`<br>`date`<br>`submitted_presence`<br>|`reply_to_reason`は任意項目|
+|欠席理由への既読チェック、返信|PUT|`id_children`<br>`date`<br>`is_accepted`<br>|`reply_to_reason`は任意項目|
 
-### `/api/teachers/list`
+### `/api/teacher/list`
 - 指定日の全園児の出欠予定状況の閲覧、実際の出欠状況の確認の投稿を行う。
   - 出欠「予定」としているのは、<br>1. 不定期で出席予約を行うケース<br>2. 予約を行わず固定の曜日に出席を予定するケース<br>の2つがあることを考慮しているからである。
 
