@@ -4,7 +4,7 @@ from attendance.models.child import Children
 from attendance.models import attendance
 from attendance.models.attendance import Attendance, AttendanceSchema
 from attendance.database import db
-from sqlalchemy import select
+from sqlalchemy import select, delete
 import datetime
 child_bp = Blueprint('child', __name__)
 
@@ -87,7 +87,7 @@ def children():
         # GET, PUTでデータの取得部分は共通
         record = attendance.Attendance.query.filter_by(id_children = id_children, date = day)
 
-        
+
         # 取得したレコードをjson化して返す
         record_json = attendance.AttendanceSchema(many = True).dump(record)
         return record_json
@@ -142,6 +142,26 @@ def child_id():
     else:
         return "bad request",400
 
+@child_bp.route('/cancel',methods=["GET"])
+def cancel_reserve_c():
+    req = request.args
+    if 'id_children' not in req or 'date' not in req:
+        return "bad request",400
+    date=datetime.datetime.strptime(req['date'].replace("_","-"),"%Y-%m-%d").date()
+    trg=db.session.execute(select(Attendance)\
+        .where(Attendance.id_children == req['id_children'],Attendance.date==date)).one_or_none()
+    if trg is None:
+        return "Invalid record",400
+    t=db.session.get(Attendance,trg[0].id)
+    print(t)
+    db.session.delete(t)
+    try:
+        db.session.flush()
+    except:
+        db.session.rollback()
+        return "DB Error",500
+    db.session.commit()
+    return "OK", 200
 @child_bp.route('/history',methods=["GET"])
 def child_history():
     req=request.args
