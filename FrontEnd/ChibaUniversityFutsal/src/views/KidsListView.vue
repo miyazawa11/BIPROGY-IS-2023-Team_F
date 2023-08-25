@@ -99,6 +99,7 @@ const colClass = ref('col-3');
 
 <template>
     <div class="mb-10">
+        <!--
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width:300px;">
             <input type="radio" class="btn-check mx-auto" name="btnradio" id="btnradio1" autocomplete="off" checked>
             <label class="btn btn-outline-primary mx-auto" for="btnradio1">ID順</label>
@@ -109,6 +110,7 @@ const colClass = ref('col-3');
             <input type="radio" class="btn-check mx-auto" name="btnradio" id="btnradio3" autocomplete="off">
             <label class="btn btn-outline-primary mx-auto" for="btnradio3">チェック無し</label>
         </div>
+        -->
         <div class="row mt-5">
             <div class="d-flex justify-content-center align-items-center" style="transform:scale(1.5)">
                 <i class="fa-solid fa-chevron-left" @click="decrementDate"></i>
@@ -116,6 +118,7 @@ const colClass = ref('col-3');
                 <i class="fa-solid fa-chevron-right" @click="incrementDate"></i>
             </div>
         </div>
+        <!--
         <div class="w-100 p-3 color:">
             <nav class="w-75 p-3 mx-auto">
                 <ul class="list-group height">
@@ -135,8 +138,11 @@ const colClass = ref('col-3');
                 </ul>
             </nav>
         </div>
+        -->
         <div class="">
-            <nav class="p-6 mx-auto">
+            <p v-if="kids.length == 0 && !isLoadingAPI" class="text-center fs-1 fw-bold">登録済みの園児がいません。</p>
+            <BaseLoadingSpinner v-else-if="isLoadingAPI" text="登録されている園児一覧を読み込み中..."/>
+            <nav class="p-6 mx-auto" v-else>
                 <ul class="list-group overflow-auto vh-65">
                     <li class="list-group-item row d-flex d-flex align-items-center" v-for="kid in kids" :key="kid.id">
                         <label :class="['fs-4', colClass, 'mx-auto', 'form-check-label', 'text-center', 'd-flex', 'align-items-center']" :for="`checkbox-${kid.id}`">{{ kid.id }}</label>
