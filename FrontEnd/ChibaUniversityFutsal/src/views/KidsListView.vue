@@ -130,6 +130,11 @@ const colClass = ref('col-3');
                             <routerLink :to="{name:'KidDetailViewPage',params:{id:kid.id}}">
                                 <button type="button" class="btn hover:btn-light">{{ kid.name }}</button>
                             </routerLink>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
         <div class="">
             <nav class="p-6 mx-auto">
                 <ul class="list-group overflow-auto vh-65">
