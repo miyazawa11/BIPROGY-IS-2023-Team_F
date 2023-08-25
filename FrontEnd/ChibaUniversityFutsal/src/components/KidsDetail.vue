@@ -19,6 +19,16 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  isParentComment: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  dispData: {
+    type: Object,
+    required: false,
+    default: null
   }
 });
 
@@ -45,6 +55,7 @@ const kid_={
         confirm:false
     }
 */
+const apiSavedComment = ref(''); // APIから取得したコメントを格納する変数
 onMounted(()=>{
     // データベースから園児情報の取得関数
     const res = getChildPresenceInfo().then((data) =>{
@@ -63,6 +74,7 @@ onMounted(()=>{
         kid.attend=result.submitted_presence;
         kid.reason=result.reason;
         kid.confirm=result.submitted_presence;
+        apiSavedComment.value = result.reply_to_reason;
     });
 })
 /**API結合部*/
@@ -78,9 +90,23 @@ const getChildPresenceInfo = async () => {
     
     return response;
 }
+const comment = ref('');
+const savedComment = ref(''); // 保存されたコメントを格納する変数
 
 const saveComment = () => {
     //TODO:返信用APIを呼び出す
+    console.log("reply to reason", comment.value);
+    api.replyToReason(props.childId, props.date, kid.attend, comment.value).then((data) => {
+        console.log("api success");
+    }).catch((error) => {
+        console.log("api error");
+    }).finally(() => {
+        console.log("api end");
+        //コメントを保存したら、コメント欄を空にし、確認済みにする
+        savedComment.value = comment.value; // 保存されたコメントにtextareaの内容を格納
+        comment.value = ''; // textareaを空にする
+    });
+
 }
 
 </script>
@@ -105,10 +131,30 @@ const saveComment = () => {
                 <h5 class="card-title">出欠席の登録がありません。</h5>
             </div>
         </div>
-        <div class="mt-3" v-if="props.useCommnent">
+        <div class="mt-3" v-if="props.useCommnent && !isParentComment">
+            <!-- 入力したコメントを表示 -->
+            <div class="alert alert-warning mt-3" v-if="apiSavedComment">
+                <strong>送信済みのコメント</strong> {{ apiSavedComment }}
+            </div>
+            <div class="alert alert-success mt-3" v-if="savedComment">
+                <strong>最新のコメント:</strong> {{ savedComment }}
+            </div>
             <label for="comment" class="form-label">保育士のコメント</label>
-            <textarea class="form-control" id="comment" rows="3"></textarea>
+            <textarea class="form-control" id="comment" rows="3" v-model="comment"></textarea>
             <button type="button" class="btn btn-warning mt-2" @click="saveComment">コメントを保存</button>
         </div>
+        <div class="mt-3" v-if="props.useCommnent && isParentComment">
+            <!-- 入力したコメントを表示 -->
+            <div class="alert alert-warning mt-3" v-if="dispData">
+                <strong>保育士からのメッセージ</strong> {{ dispData.reply_to_reason }}
+            </div>
+            <div class="alert alert-success mt-3" v-if="savedComment">
+                <strong>あなたのコメント</strong> {{ savedComment }}
+            </div>
+            <label for="comment" class="form-label">あなたのコメント</label>
+            <textarea class="form-control" id="comment" rows="3" v-model="comment"></textarea>
+            <button type="button" class="btn btn-warning mt-2" @click="saveComment">コメントを保存</button>
+        </div>
+        
     </div>
 </template>
