@@ -3,11 +3,11 @@ import { ref,onMounted, onUnmounted, inject } from 'vue';
 import { useRouter,useRoute } from 'vue-router';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseWatch from '@/components/BaseWatch.vue';
-
+import BaseLoadingSpinner from '../components/BaseLoadingSpinner.vue';
 import ServerAPI from '../services/ServerAPI';
 
 const isAttend = ref(false);
-
+const isLoading = ref(false);
 const ModalOpen = ref(null)
 const abstract = ref('')
 const router = useRouter()
@@ -25,6 +25,7 @@ const transition = (link) => {
       console.log("LINK",link)
       if(link.length!=0) {
         console.log("ROUTING")
+        isLoading.value = false;
         router.push(link)
       }
     });
@@ -54,6 +55,7 @@ console.log(isMdAndUp.value);
 const api = new ServerAPI("http://127.0.0.1:5000");
 
 const sendAttendanceAPI = () => {
+    isLoading.value = true;
     isAttend.value = true;
 
     console.log('apiTest');
@@ -79,15 +81,22 @@ const sendAttendanceAPI = () => {
         param.is_attendance,
         param.abstract
       );
-      console.log(response);
     }
-    post().finally(() => {
+
+    post()
+    .catch((error) => {
+      console.log("API RESPONSE ATTENDANCE Child", response);
+      console.log(error);
+    })
+    .finally(() => {
       console.log('api POST end');
+      isLoading.value = false;
       router.push(`/guardians/confirm/${childId}`)
     });
 }
 
 const sendAbsence = async () => {
+    isLoading.value = true;
     isAttend.value = false;
     const nowYear = new Date().getFullYear();
     const nowMonth = new Date().getMonth() + 1;

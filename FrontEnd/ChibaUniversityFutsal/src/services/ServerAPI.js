@@ -57,6 +57,7 @@ export default class ServerAPI {
      * @returns {Promise<Object>} 出欠情報
      */
     async getChildAttendance(id_children, date) {
+        console.log("【ServerAPI】getChildAttendance", id_children, date);
         return this._request('GET', `/api/children/reserve?id_children=${id_children}&date=${date}`);
     }
 
@@ -75,6 +76,7 @@ export default class ServerAPI {
             "submitted_presence": `${submitted_presence ? 'True' : 'False'}`,
             "reason": `${reason}`
         }
+
         return this._request('POST', `/api/children/reserve`, body);
     }
 
@@ -103,6 +105,21 @@ export default class ServerAPI {
         return this._request('GET', `/api/teachers/reserve?id_children=${id_children}&date=${date}`);
     }
 
+
+    /**
+     * 年月日から園児一覧の情報を取得する
+     * @param {number} year - 年
+     * @param {number} month - 月
+     * @param {number} date - 日
+     */
+    async teacherGetListByDate(year, month, date) {
+        console.log("【ServerAPI】teacherGetListByDate", year, month, date);
+        return this._request(
+            'GET', 
+            `/api/teacher/list?date=${year}_${month}_${date}`
+        );
+    }
+
     /**
      * 出欠を登録する
      * @param {number} id_children - 園児のID
@@ -112,10 +129,13 @@ export default class ServerAPI {
      * @returns {Promise<Object>} 登録結果
      */
     async registerTeacherAttendance(id_children, date, submitted_presence, reason) {
-        return this._request('POST', `/api/teachers/reserve?id_children=${id_children}&date=${date}`, {
-            submitted_presence,
-            reason
-        });
+        const body = {
+            "id_children": `${id_children}`,
+            "date": `${date}`,
+            "submitted_presence": `${submitted_presence ? 'True' : 'False'}`,
+            "reason": `${reason}`
+        }
+        return this._request('POST', `/api/teacher/reserve`, body);
     }
 
     /**

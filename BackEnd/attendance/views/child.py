@@ -1,11 +1,23 @@
 from flask import Blueprint, request, jsonify
 from attendance.models import child
+from attendance.models.child import Children
 from attendance.models import attendance
-from attendance.models.attendance import Attendance
+from attendance.models.attendance import Attendance, AttendanceSchema
 from attendance.database import db
 from sqlalchemy import select, delete
 import datetime
 child_bp = Blueprint('child', __name__)
+
+def ch_id_to_name(id):
+    trg=db.session.get(child.Children, id)
+    if trg is None:
+        return ""
+    return trg.username
+def ch_name_to_id(name):
+    trg=db.session.execute(select(child.Children).filter(child.Children.username==name)).one_or_none()
+    if trg is None:
+        return -1
+    return trg.Children.id
 
 @child_bp.route('/reserve', methods=['GET', 'POST', 'PUT'])
 def children():
@@ -118,15 +130,15 @@ def children():
 def child_id():
     req=request.args
     if 'id' in req:
-        trg=db.session.get(child.Children, req['id'])
-        if trg is None:
-            return "Invalid id", 400
-        return trg.username,200
+        ret=ch_id_to_name(req['id'])
+        if ret=="":
+            return "Invalid ID", 400
+        return ret,200
     if 'username' in req:
-        trg=db.session.execute(select(child.Children).filter(child.Children.username==req['username'])).one_or_none()
-        if trg is None:
+        ret=ch_name_to_id(req['username'])
+        if ret == -1:
             return "Invalid username", 400
-        return jsonify(trg.Children.id),200
+        return jsonify(ret),200
     else:
         return "bad request",400
 
@@ -150,3 +162,24 @@ def cancel_reserve_c():
         return "DB Error",500
     db.session.commit()
     return "OK", 200
+@child_bp.route('/history',methods=["GET"])
+def child_history():
+    req=request.args
+    id=-1
+    if 'id' in req:
+        trg=db.session.get(child.Children, req['id'])
+        if trg is None:
+            return "Invalid ID", 400
+        id=req['id']
+    if 'username' in req:
+        ret=ch_name_to_id(req['username'])
+        if ret == -1:
+            return "Invalid username", 400
+        id=ret
+    assert id != -1
+    print(id)
+    result=db.session.execute(\
+        select(Attendance).filter(Attendance.id_children==id)).all()
+    result_list=[ e[0] for e in result ]
+    print(result)
+    return AttendanceSchema(many=True).dump(result_list), 200

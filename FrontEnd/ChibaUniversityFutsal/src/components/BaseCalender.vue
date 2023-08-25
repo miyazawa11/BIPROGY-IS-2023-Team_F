@@ -117,6 +117,8 @@ const changeMonth = (direction) => {
 };
 
 const weeks = computed(() => generateCalendarDates(currentMonth.value, currentYear.value));
+
+
 </script>
 
 <template>
@@ -147,9 +149,9 @@ const weeks = computed(() => generateCalendarDates(currentMonth.value, currentYe
         <tbody>
           <tr v-for="week in weeks" :key="week[0]">
             <td v-for="day in week" :key="day" :class="{ 'bg-light': !day }" @click="selectDate(day)">
-              <div class="date-circle" :style="{ backgroundColor: getColor(day) }" style="color:rgb(0,0,0);">
+              <button type="button" class="date-circle btn" data-bs-toggle="tooltip" data-bs-placement="top" title="その日の詳細画面へ" :style="{ backgroundColor: getColor(day) }" style="color:rgb(0,0,0);">
                 {{ day || '' }}
-              </div>
+              </button>
             </td>
           </tr>
         </tbody>
