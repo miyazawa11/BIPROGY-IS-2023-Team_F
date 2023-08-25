@@ -15,6 +15,11 @@ const props = defineProps({
     type: String,
     required: true
   },
+  useCommnent: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
 });
 
 const kid = reactive({
@@ -44,9 +49,17 @@ onMounted(()=>{
     // データベースから園児情報の取得関数
     const res = getChildPresenceInfo().then((data) =>{
         console.log(data);
+        if(data.length == 0){
+            console.log("データがありません");
+            kid.name=props.childId;
+            kid.attend=null;
+            kid.reason="データなし";
+            kid.confirm=null;
+            return;
+        }
         const result = data[0]
         //TODO:ここで、取得した出欠結果と理由を取得し、変数に反映
-        kid.name=result.id;
+        kid.name=props.childId;
         kid.attend=result.submitted_presence;
         kid.reason=result.reason;
         kid.confirm=result.submitted_presence;
@@ -64,7 +77,10 @@ const getChildPresenceInfo = async () => {
     const response = await api.getChildAttendance(param.id, param.date);
     
     return response;
-    
+}
+
+const saveComment = () => {
+    //TODO:返信用APIを呼び出す
 }
 
 </script>
@@ -78,13 +94,21 @@ const getChildPresenceInfo = async () => {
             </h5>
         </div>
         <div class="card-body">
-            <div v-if="!kid.attend">
+            <div v-if="kid.attend === false">
                 <h5 class="card-title">欠席</h5>
                 <p class="card-text">{{ kid.reason }}</p>
             </div>
-            <div v-else>
+            <div v-else-if="kid.attend">
                 <h5 class="card-title">出席</h5>
             </div>
+            <div v-else>
+                <h5 class="card-title">出欠席の登録がありません。</h5>
+            </div>
+        </div>
+        <div class="mt-3" v-if="props.useCommnent">
+            <label for="comment" class="form-label">保育士のコメント</label>
+            <textarea class="form-control" id="comment" rows="3"></textarea>
+            <button type="button" class="btn btn-warning mt-2" @click="saveComment">コメントを保存</button>
         </div>
     </div>
 </template>
