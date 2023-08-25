@@ -1,19 +1,35 @@
 <script setup>
-import { ref } from 'vue';
+import { ref ,onMounted} from 'vue';
 import { useRouter } from 'vue-router';
 import BaseIconButton from "@/components/BaseIconButton.vue";
+import { onBeforeRouteUpdate } from 'vue-router';
 const router = useRouter();
 let path = router.currentRoute.value.path;
-
+const icon = ref(false)
 const transition = () => {
   path = router.currentRoute.value.path;
-  if (path.indexOf('guardians') > 0) {
-    router.push('/');
+  console.log(path)
+    if (path.indexOf('guardians') > 0) {
+      router.push('/');
+  } else if (path.indexOf('/nursery/confirm/detail') >= 0) {
+      router.push('/nursery/confirm');  
+  } 
+  else if (path.indexOf('/nursery/confirm') >= 0) {
+      router.push('/');
   }
-  else if (path.indexOf('nursery') > 0) {
-    router.push('/nursery/confirm');
-  }
+  console.log(path)
 }
+onBeforeRouteUpdate((to, from, next) => {
+  const path = to.path;
+  console.log(icon.value);
+  if (path.includes('/nursery/confirm/detail')) {
+    icon.value = true;
+    console.log(icon.value);
+  } else {
+    icon.value = false;
+  }
+  next();
+});
 </script>
 
 <template>
@@ -55,9 +71,14 @@ const transition = () => {
     <div class="row d-none d-sm-block">
       <div class="col-3">
         <div class="IconButtonWrapper position-relative mx-auto">
-          <BaseIconButton name="終了" class="IconButtonSize" @click="transition">
+          <BaseIconButton v-if="!icon" name="終了" class="IconButtonSize" @click="transition">
             <template v-slot:BaseIconButton>
               <i class="fa-solid fa-house"></i>
+            </template>
+          </BaseIconButton>
+          <BaseIconButton v-if="icon" name="戻る" class="IconButtonSize" @click="transition">
+            <template v-slot:BaseIconButton>
+              <i class="fa-solid fa-backward"></i>
             </template>
           </BaseIconButton>
         </div>
