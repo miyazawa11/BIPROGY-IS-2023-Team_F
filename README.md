@@ -14,7 +14,7 @@ __ステークホルダー側の視点：__
 
 __保育士の負担__  __が大きな課題__
 
-![](img%5C%E7%99%BA%E8%A1%A8%E8%B3%87%E6%96%99_F%E3%83%81%E3%83%BC%E3%83%A00.png)
+![](img/発表資料_Fチーム0.png.png)
 
 __\(出典：保育現場の働き方改革に関するアンケート調査__  _[https://www\.pref\.oita\.jp/uploaded/attachment/2029582\.pdf](https://www.pref.oita.jp/uploaded/attachment/2029582.pdf)_  __）__
 
@@ -51,8 +51,8 @@ __保育士の業務負担軽減が目的__ ＆ __基礎的な実装が多い出
 1画面1操作のUIで、わかりやすい
 
 # プロダクトデモ
-![](img%5C%E7%99%BA%E8%A1%A8%E8%B3%87%E6%96%99_F%E3%83%81%E3%83%BC%E3%83%A01.png)
-![](img%5C%E7%99%BA%E8%A1%A8%E8%B3%87%E6%96%99_F%E3%83%81%E3%83%BC%E3%83%A02.png)
+![](img/発表資料_Fチーム1.png)
+![](img/発表資料_Fチーム2.png)
 
 ## 技術スタック
 
@@ -123,13 +123,13 @@ __好きな時間に出欠の管理できるようにする__
 
 __保護者との連絡を手軽にする__
 
-![](img%5C%E7%99%BA%E8%A1%A8%E8%B3%87%E6%96%99_F%E3%83%81%E3%83%BC%E3%83%A07.png)
+![](img/発表資料_Fチーム7.png)
 
 __保育士のノンコンタクトタイムを減らし、__  __園児と向き合う時間を増やしたい__
 
-![](img%5C%E7%99%BA%E8%A1%A8%E8%B3%87%E6%96%99_F%E3%83%81%E3%83%BC%E3%83%A08.png)
+![](img/発表資料_Fチーム8.png)
 
-![](img%5C%E7%99%BA%E8%A1%A8%E8%B3%87%E6%96%99_F%E3%83%81%E3%83%BC%E3%83%A09.png)
+![](img/発表資料_Fチーム9.png)
 
 <span style="color:#474747">（出典：</span>  <span style="color:#474747">東京都福祉局</span>  <span style="color:#474747">「</span>  <span style="color:#474747">保育事業者の事務負担軽減等に関する調査・分析　報告書</span>  <span style="color:#474747">」/</span>  _[https://www\.fukushi\.metro\.tokyo\.lg\.jp/kodomo//hoiku/jimuhutan\.files/03\.pdf](https://www.fukushi.metro.tokyo.lg.jp/kodomo//hoiku/jimuhutan.files/03.pdf)_  <span style="color:#474747">）</span>
 
@@ -155,6 +155,6 @@ __保育士のノンコンタクトタイムを減らし、__  __園児と向き
 
 もしまた選考ないしはインターン、はたまた仕事にてお会いすることがあれば、本チームでの開発のお話で盛り上がれればと思います。
 
-改めまして、本当にありがとうございました。
+改めまして、5日間このチームで苦楽をともに開発を行えたことを大変嬉しく思います。ありがとうございました。
 
 
