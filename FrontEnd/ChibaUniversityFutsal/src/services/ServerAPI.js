@@ -116,7 +116,8 @@ export default class ServerAPI {
         console.log("【ServerAPI】teacherGetListByDate", year, month, date);
         return this._request(
             'GET', 
-            `/api/teacher/list?date=${year}_${month}_${date}`
+            `/api/teacher/list?date=${year}_${month}_${date}`,
+            //`/api/teacher/reserve?date=${year}_${month}_${date}`
         );
     }
 
@@ -147,10 +148,15 @@ export default class ServerAPI {
      * @returns {Promise<Object>} 返信結果
      */
     async replyToReason(id_children, date, submitted_presence, reply_to_reason) {
-        return this._request('PUT', `/api/teachers/reserve?id_children=${id_children}&date=${date}`, {
-            submitted_presence,
-            reply_to_reason
-        });
+        const body = {
+            "id_children": `${id_children}`,
+            "date": `${date}`,
+            "submitted_presence": `${submitted_presence ? 'True' : 'False'}`,
+            "reply_to_reason": `${reply_to_reason}`,
+            "is_accepted": "True"
+            //'was_present': `${submitted_presence ? 'True' : 'False'}`
+        }
+        return this._request('PUT', `/api/teacher/reserve`, body);
     }
 }
 

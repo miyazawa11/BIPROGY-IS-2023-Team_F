@@ -159,6 +159,7 @@ const sendAbsence = async () => {
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 

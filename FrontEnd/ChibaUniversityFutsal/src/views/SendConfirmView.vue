@@ -19,10 +19,32 @@ const currentMonth = ref(nowMonth.value);
 const currentYear = ref(nowYear.value);
 const currentDate = ref(nowDate.value);
 
+const commentKey = ref(0);
+const dispData = ref(null);
 
 // カレンダーコンポーネントからの選択日付のハンドラ
 const handleSelectedDate = (selectedDate) => {
   console.log('選択された日付:', selectedDate);
+  //userDatasからその日の出欠情報をし、KidsDetailに渡す
+    const dMonth = (`0` + selectedDate.month).slice(-2);
+    const d = `${selectedDate.year}-${dMonth}-${selectedDate.day}`;
+    for(const data of userDatas.value) {
+        console.log("data.date", data.date, d);
+        console.log("b", data.date === currentDate.value);
+        if(!data.date) {
+            continue;
+        }
+        const dY = data.date.split("-")[0];
+        const dM = data.date.split("-")[1];
+        const dD = data.date.split("-")[2];
+        if (dY == selectedDate.year && dM == dMonth && dD == selectedDate.day) {
+            console.log("data", data);
+            dispData.value = data;
+            commentKey.value++;
+            break;
+        }
+    }
+
 };
 
 // カレンダーコンポーネントからの月変更のハンドラ
@@ -76,10 +98,12 @@ const getPresenceForMonth = async () => {
                 reason: undefined,
                 submitted_presence: undefined,
                 was_present: undefined,
+                reply_to_reason: undefined,
             } : 
             data[0]
         );
     }
+    console.log("userDatas", userDatas.value);
 }
 
 const changeCalenderColor = () => {
@@ -150,7 +174,7 @@ const getPresenceCalender = () => {
         <div class="row">
             <div class="col">
                 <div class="mx-auto" :class="isMdAndUp ? 'w-50' : 'w-100'">
-                    <KidsDetail :childId="childId" :date="nowYear + `_` + nowMonth + `_` + nowDate" />
+                    <KidsDetail :childId="childId" :date="nowYear + `_` + nowMonth + `_` + nowDate" :useCommnent="true" :isParentComment="true" :dispData="dispData"/>
                 </div>
             </div>
         </div>
